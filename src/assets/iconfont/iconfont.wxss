@@ -46,3 +46,16 @@
 
 .icon-clock1:before { content: "\e6dd"; }
 
+.icon-hourglass2 {
+    animation: rotating 4s linear infinite;
+}
+
+@keyframes rotating {
+    0% {
+        transform: rotateZ(0deg);
+    }
+    100% {
+        transform: rotateZ(360deg);
+    }
+}
+

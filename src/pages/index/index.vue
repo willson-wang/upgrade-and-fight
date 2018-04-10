@@ -1,7 +1,7 @@
 <template>
-  <div class="container" @click="clickHandle('test click', $event)">
+  <div class="container">
     <div class="userinfo" @click="bindViewTap">
-      <img class="userinfo-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover" />
+      <head-photo :user-info="userInfo"></head-photo>
       <div><i class="icon icon-star1"></i></div>
       <div>66</div>
     </div>
@@ -14,20 +14,12 @@
         </div>
       </div>
       <p class="progress-totle">共10关</p>
-      <div class="progress-button">开始闯关</div>
+      <div class="progress-button" @click="startHourglass">开始闯关</div>
     </div>
     <ul class="column">
-      <li>
+      <li v-for="(item, index) in menuList" :key="index" @click="linkTo(item.key)">
         <p><i class="icon icon-LC_icon_photo_fill"></i></p>
-        <p>错题库</p>
-      </li>
-      <li>
-        <p><i class="icon icon-LC_icon_photo_fill"></i></p>
-        <p>PK场</p>
-      </li>
-      <li>
-        <p><i class="icon icon-LC_icon_photo_fill"></i></p>
-        <p>终极考核室</p>
+        <p>{{item.title}}</p>
       </li>
     </ul>
     <div class="rank">
@@ -38,7 +30,10 @@
 </template>
 
 <script>
+// 首页
+import { wxSetStorage, wxLogin, wxGetUserInfo, wxGetStorage, wxNavigateTo } from '@/utils/wechat';
 import card from '@/components/card';
+import headPhoto from '@/components/head-photo';
 
 export default {
   data() {
@@ -46,11 +41,26 @@ export default {
       motto: 'Hello World',
       userInfo: {},
       checkPoint: 1,
+      menuList: [
+        {
+          title: '错题库',
+          key: 'error',
+        },
+        {
+          title: 'PK场',
+          key: 'pk',
+        },
+        {
+          title: '终极考核室',
+          key: 'final',
+        },
+      ],
     };
   },
 
   components: {
     card,
+    headPhoto,
   },
   computed: {
     leftRotate() {
@@ -70,18 +80,33 @@ export default {
     },
     getUserInfo() {
       // 调用登录接口
-      wx.login({
-        success: () => {
-          wx.getUserInfo({
-            success: (res) => {
-              this.userInfo = res.userInfo;
-            },
-          });
-        },
+      wxGetStorage('userInfo').then((res) => {
+        if (res.data) {
+          this.userInfo = JSON.parse(res.data);
+          return;
+        }
+
+        wxLogin().then(() => {
+          return wxGetUserInfo();
+        }).then((response) => {
+          this.userInfo = response.userInfo;
+          wxSetStorage({ key: 'userInfo', data: JSON.stringify(response.userInfo) });
+        });
       });
     },
-    clickHandle(msg, ev) {
-      console.log('clickHandle:', msg, ev);
+    startHourglass() {
+      wxNavigateTo('../hourglass/main');
+    },
+    linkTo(key) {
+      const STATUS = {
+        go: function (name) {
+          STATUS[`state_${name}`] && STATUS[`state_${name}`]();
+        },
+        state_pk: function () {
+          wxNavigateTo('../pk/main');
+        },
+      };
+      STATUS.go(key);
     },
   },
 
@@ -93,7 +118,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import (reference) '../../assets/less/index.less';
+@import '../../assets/less/index.less';
 @import '../../assets/iconfont/iconfont.wxss';
 .userinfo {
   display: flex;
@@ -101,13 +126,6 @@ export default {
   flex: 1 0 auto;
   flex-direction: column;
   align-items: flex-start;
-
-  .userinfo-avatar {
-    width: 64px;
-    height: 64px;
-    margin: 10px;
-    border-radius: 50%;
-  }
 
   div {
     font-size: 16px;
