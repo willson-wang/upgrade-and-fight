@@ -22,7 +22,7 @@
         <p>{{item.title}}</p>
       </li>
     </ul>
-    <div class="rank">
+    <div class="rank" @click="linkTo('rank')">
       <p><i class="icon icon-LC_icon_photo_fill"></i></p>
       <p>排行榜</p>
     </div>
@@ -104,6 +104,15 @@ export default {
         },
         state_pk: function () {
           wxNavigateTo('../pk/main');
+        },
+        state_error: function () {
+          wxNavigateTo('../errorlog/main');
+        },
+        state_final: function () {
+          wxNavigateTo('../finalexam/main');
+        },
+        state_rank: function () {
+          wxNavigateTo('../rank/main');
         },
       };
       STATUS.go(key);
