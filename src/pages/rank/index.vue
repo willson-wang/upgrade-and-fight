@@ -1,16 +1,18 @@
 <template>
-  <div class="">
-      <div>
-        总榜：NO 1
-
-PK榜：NO 3
-
-PK榜：NO 3
+  <div class="rank-container">
+      <div class="rank-overview">
+        <div class="rank-avatar">假装是头像</div>
+        <div class="rank-rst">
+          <div class="total-ov">总榜: NO {{myRank.total}}</div>
+          <div class="pk-ov">PK榜: NO {{myRank.pk}}</div>
+          <div class="final-ov">考核榜: NO {{myRank.final}}</div>
+        </div>
       </div>
       <div class="rank-page">
-        <div class="tabs"
-          v-for="(rankType,index) in rankTypes" :key="index">
-          <div class="tab"  @click="e => switchTab(e,rankType.key)">
+        <div class="tabs">
+          <div class="tab"  
+            v-for="(rankType,index) in rankTypes" :key="index"
+            @click="e => switchTab(e,rankType.key)">
             {{rankType.title}}
           </div>
         </div>
@@ -31,6 +33,11 @@ export default {
   data() {
     return {
       currentTab: 'total',
+      myRank: {
+        total: 1,
+        pk: 3,
+        final: 3,
+      },
       rankTypes: [
         {
           title: '总榜',
@@ -150,5 +157,36 @@ export default {
 </script>
 
 <style lang="less">
-
+.rank-container {
+  .rank-overview {
+    position: relative;
+    margin-top: 100rpx;
+    .rank-avatar {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .rank-rst {
+      background-color: #FFFFFF;
+      width: 640rpx;
+      height: 300rpx;
+      border: 1px solid rgba(121,121,121,1);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin: auto;
+    }
+  }
+  .rank-page {
+    background-color: #8f949a;
+    min-height: 60vh;
+    .tabs {
+      display: flex;
+      justify-content: space-between;
+      .tab {
+        background-color: #ffffff;
+      }
+    }
+  }
+}
 </style>

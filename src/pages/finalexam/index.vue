@@ -1,10 +1,9 @@
 <template>
-  <div class="container">
-    <div class="all-exams"
-      v-for="(exam,index) in examList" :key="index">
-      <div class="exam-item">
+  <div class="final-exam-container">
+    <div class="all-exams">
+      <div class="exam-item" v-for="(exam,index) in examList" :key="index">
         <div class="exam-title" @click="e => startExam(e,exam.key)">{{exam.title}}</div>  
-        <div class="exam-result">{{exam.score}}/{{exam.total}}</div>
+        <div class="exam-result">{{ exam.score === null ? '待考核' : exam.score + '/' + exam.total }}</div>
       </div>  
     </div>
   </div>
@@ -85,5 +84,22 @@ export default {
 </script>
 
 <style lang="less">
+.final-exam-container {
+  min-height: 100vh;
+  .all-exams {
+    padding: 60rpx 40rpx 0 40rpx;
+    .exam-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin: 20rpx 0;
+      .exam-title {
+        border: 1px solid rgba(121,121,121,1);
+        padding: 10rpx;
+      }
+    }
+  }
+
+}
 
 </style>

@@ -1,9 +1,12 @@
 <template>
   <div class="rank-container">
     <div class="rank-list" v-for="(item,index) in ranklist" :key="index">
-      <div>
-        <div class="avatar"></div>
-        <div>{{item.name}}</div>
+      <div class="rank-user">
+        <div>{{ index + 1 }}</div>
+        <div>
+          <div class="avatar"></div>
+          <div>{{item.name}}</div>
+        </div>
       </div>
       <div v-if="type === 'pk'">{{item.result}}</div>
       <div v-if="type === 'final'">{{item.avgScore}}</div>
@@ -28,6 +31,17 @@ export default {
 };
 </script>
 
-<style>
+<style lang="less">
+.rank-container {
+  .rank-list {
+    display: flex;
+    justify-content: space-around;
+    height: 80rpx;
+    .rank-user {
+      display: flex;
+      justify-content: space-around;
+    }
+  }
+}
 
 </style>
