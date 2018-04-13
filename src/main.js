@@ -14,9 +14,9 @@ export default {
     pages: [
       'pages/logs/main',
       'pages/index/main',
-      '^pages/hourglass/main',
+      'pages/hourglass/main',
       'pages/hourglass-subject/main',
-      'pages/pk/main',
+      '^pages/pk/main',
       'pages/wait/main',
       'pages/pk-subject/main',
     ],

@@ -7,8 +7,9 @@
 <script>
 // PK答题
 import subject from '@/components/subject';
+import getWechatInfo from '@/utils/mixins';
 import subjectList from './data';
-import wx, { dialog, wxSetStorage, wxLogin, wxGetUserInfo, wxGetStorage } from '../../utils/wechat';
+import wx, { dialog } from '../../utils/wechat';
 
 const TIME_INTERVAL = 5;
 
@@ -17,6 +18,7 @@ export default {
   components: {
     subject,
   },
+  mixins: [getWechatInfo],
   data() {
     return {
       subjectList,
@@ -61,22 +63,6 @@ export default {
         this.countTime();
       }, 500);
     },
-    getUserInfo() {
-      wxGetStorage('userInfo').then((res) => {
-        console.log(res.data);
-        if (res.data) {
-          this.userInfo = JSON.parse(res.data);
-          return;
-        }
-
-        wxLogin().then(() => {
-          return wxGetUserInfo();
-        }).then((response) => {
-          this.userInfo = response.userInfo;
-          wxSetStorage({ key: 'userInfo', data: JSON.stringify(response.userInfo) });
-        });
-      });
-    },
     countDownHandler() {
       this.countDown -= 1;
     },
@@ -92,14 +78,20 @@ export default {
       }, 1000);
     },
   },
-  created() {
+  mounted() {
     // 调用应用实例的方法获取全局数据
     this.getUserInfo();
     this.countTime();
   },
-  destory() {
+  destroyed() {
     clearInterval(this.intervalTimer);
     clearTimeout(this.timer);
+  },
+  onLoad(opt) {
+    if (opt.type === 1007) {
+      this.scene = opt.type;
+      console.log('邀请的好友进来了pk答题页面');
+    }
   },
 };
 </script>

@@ -31,9 +31,10 @@
 
 <script>
 // 首页
-import { wxSetStorage, wxLogin, wxGetUserInfo, wxGetStorage, wxNavigateTo } from '@/utils/wechat';
+import { wxNavigateTo } from '@/utils/wechat';
 import card from '@/components/card';
 import headPhoto from '@/components/head-photo';
+import getWechatInfo from '@/utils/mixins';
 
 export default {
   data() {
@@ -57,7 +58,7 @@ export default {
       ],
     };
   },
-
+  mixins: [getWechatInfo],
   components: {
     card,
     headPhoto,
@@ -77,22 +78,6 @@ export default {
     bindViewTap() {
       const url = '../logs/main';
       wx.navigateTo({ url });
-    },
-    getUserInfo() {
-      // 调用登录接口
-      wxGetStorage('userInfo').then((res) => {
-        if (res.data) {
-          this.userInfo = JSON.parse(res.data);
-          return;
-        }
-
-        wxLogin().then(() => {
-          return wxGetUserInfo();
-        }).then((response) => {
-          this.userInfo = response.userInfo;
-          wxSetStorage({ key: 'userInfo', data: JSON.stringify(response.userInfo) });
-        });
-      });
     },
     startHourglass() {
       wxNavigateTo('../hourglass/main');

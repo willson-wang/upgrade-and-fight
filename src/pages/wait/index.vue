@@ -8,6 +8,7 @@
       <head-photo :user-info="userInfo"></head-photo>
     </div>
     <div class="wait-btn">
+      <button type="button" v-show="isFriend" @click="startPk">开始PK</button>
       <button type="button" @click="cancelHandler">取消</button>
     </div>
   </div>
@@ -16,7 +17,8 @@
 <script>
 // 邀请好友等待页面
 import headPhoto from '@/components/head-photo';
-import { wxSetStorage, wxLogin, wxGetUserInfo, wxGetStorage, wxNavigateTo } from '@/utils/wechat';
+import { wxNavigateTo } from '@/utils/wechat';
+import getWechatInfo from '@/utils/mixins';
 
 export default {
   components: {
@@ -25,31 +27,29 @@ export default {
   data() {
     return {
       userInfo: {},
+      isFriend: false,
+      scene: '',
     };
   },
+  mixins: [getWechatInfo],
   methods: {
-    getUserInfo() {
-      // 调用登录接口
-      wxGetStorage('userInfo').then((res) => {
-        if (res.data) {
-          this.userInfo = JSON.parse(res.data);
-          return;
-        }
-
-        wxLogin().then(() => {
-          return wxGetUserInfo();
-        }).then((response) => {
-          this.userInfo = response.userInfo;
-          wxSetStorage({ key: 'userInfo', data: JSON.stringify(response.userInfo) });
-        });
-      });
-    },
     cancelHandler() {
       wxNavigateTo('../pk/main');
     },
+    startPk() {
+      wxNavigateTo(`../pk-subject/main?type=${this.scene}`);
+    },
   },
-  created() {
+  mounted() {
     this.getUserInfo();
+  },
+  onLoad(opt) {
+    console.log(opt, 'onLoad wait');
+    if (+opt.type === 1007) {
+      this.isFriend = true;
+      this.scene = opt.type;
+      console.log('邀请的好友进来了');
+    }
   },
 };
 </script>
@@ -66,13 +66,17 @@ export default {
       align-items: center;
     }
     .wait-btn {
-      flex: 0 0 80px;
+      flex: 0 0 40px;
       display: flex;
+      flex-direction: column;
       align-items: center;
       button {
+        flex: 0 0 40px;
         display: block;
         width: 120px;
         border: 1px solid @color-bdr;
+        line-height: 40px;
+        margin-top: 10px;
       }
     }
   }

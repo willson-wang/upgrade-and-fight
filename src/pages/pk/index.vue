@@ -19,7 +19,8 @@
 // PK场
 import rank from '@/components/rank';
 import headPhoto from '@/components/head-photo';
-import { wxSetStorage, wxLogin, wxGetUserInfo, wxGetStorage, wxHideShareMenu } from '@/utils/wechat';
+import { wxShowShareMenu, wxNavigateTo, wxGetShareInfo } from '@/utils/wechat';
+import getWechatInfo from '@/utils/mixins';
 
 export default {
   name: 'pk',
@@ -64,43 +65,33 @@ export default {
       ],
     };
   },
+  mixins: [getWechatInfo],
   methods: {
     tabChange(index) {
       console.log(index);
     },
-    getUserInfo() {
-      // 调用登录接口
-      wxGetStorage('userInfo').then((res) => {
-        if (res.data) {
-          this.userInfo = JSON.parse(res.data);
-          return;
-        }
-
-        wxLogin().then(() => {
-          return wxGetUserInfo();
-        }).then((response) => {
-          this.userInfo = response.userInfo;
-          wxSetStorage({ key: 'userInfo', data: JSON.stringify(response.userInfo) });
-        });
-      });
-    },
   },
   created() {
     this.getUserInfo();
-    wxHideShareMenu().then((res) => {
-      console.log(res);
+  },
+  onLoad() {
+    console.log('onLoad');
+    wxShowShareMenu().then((res) => {
+      console.log('wxShowShareMenu', res);
     });
   },
-  onShareAppMessage(res) {
-    console.log(res);
+  onShareAppMessage() {
     return {
       title: '我在【升级打怪】向你发起了挑战,少年有胆就战!',
-      path: '/pages/hourglass-subject/main',
+      path: '/pages/index/main',
       imageUrl: '../../static/images/home.png',
       success: function (response) {
         // 转发成功
-        console.log(response);
-        // wxNavigateTo();
+        console.log('转发success', response, wxNavigateTo);
+        // wxNavigateTo('../wait/main?type=1');
+        wxGetShareInfo(response.shareTickets[0]).then((res) => {
+          console.log('wxGetShareInfo', res);
+        });
       },
       fail: function (response) {
         // 转发失败
