@@ -16,7 +16,7 @@ export default {
       '^pages/index/main',  // 首页
       'pages/hourglass/main', // 限时闯关答题
       'pages/hourglass-subject/main',
-      '^pages/pk/main',
+      'pages/pk/main',
       'pages/wait/main',
       'pages/errorlog/main',    // 错题库
       'pages/pk-subject/main',

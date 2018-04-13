@@ -29,7 +29,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 0,
+			"current": -1,
 			"list": [
 				{
 					"id": 0,
@@ -42,10 +42,12 @@
 						"shareName": "0imEVyGKkKe2Mxo9jVpRbx2A8z7AdiFhN0W4uEEPRAM@cr4dev",
 						"shareKey": "WXecBDQdOsoE26II32mycQwL0oBUoGVCBRlphX7I-hhD9rb8sZMoTRb0q6sO8QAZu_6YYA2xKAElXPyZPIQkWA~~"
 					}
-				}, {
+				},
+				{
 					"id": -1,
 					"name": "index",
-					"pathName": "pages/index/main"
+					"pathName": "pages/index/main",
+					"query": ""
 				}
 			]
 		}
