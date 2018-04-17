@@ -5,6 +5,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 升级打怪20170404/
+utils/
 
 # Editor directories and files
 .idea

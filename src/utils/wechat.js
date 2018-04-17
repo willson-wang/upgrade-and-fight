@@ -95,7 +95,6 @@ export function wxHideShareMenu() {
 
 export function wxNavigateTo(url) {
   return new Promise((resolve, reject) => {
-    console.log(url);
     wx.navigateTo({
       url,
       success: function (res) {
@@ -216,5 +215,114 @@ export function wxOnSocketClose() {
     });
   });
 }
+
+export function wxShowLoading({ title = '加载中', mask = false }) {
+  return new Promise((resolve, reject) => {
+    wx.showLoading({
+      title,
+      mask,
+      success: function (res) {
+        resolve(res);
+      },
+      fail: function (error) {
+        reject(error);
+      },
+    });
+  });
+}
+
+export function wxHideLoading({ title = '', mask = false }) {
+  return new Promise((resolve, reject) => {
+    wx.hideLoading({
+      title,
+      mask,
+      success: function (res) {
+        resolve(res);
+      },
+      fail: function (error) {
+        reject(error);
+      },
+    });
+  });
+}
+
+export function wxPost({ url, data }) {
+  return new Promise((resolve, reject) => {
+    wxShowLoading({});
+    wx.request({
+      url: `https://killmonster.myscrm.cn${url}`,
+      method: 'POST',
+      data,
+      header: {
+        'content-type': 'application/json', // 默认值
+      },
+      success: function (res) {
+        resolve(res);
+        wxHideLoading({});
+      },
+      fail: function (error) {
+        reject(error);
+        wxHideLoading({});
+      },
+    });
+  });
+}
+
+export function wxGet({ url, data }) {
+  return new Promise((resolve, reject) => {
+    wxShowLoading({});
+    wx.request({
+      url: `https://killmonster.myscrm.cn${url}`,
+      method: 'GET',
+      data,
+      header: {
+        'content-type': 'application/json', // 默认值
+      },
+      success: function (res) {
+        resolve(res);
+        wxHideLoading({});
+      },
+      fail: function (error) {
+        reject(error);
+        wxHideLoading({});
+      },
+    });
+  });
+}
+
+export function wxShowToast({ title = '成功', icon = 'none', duration = 2000, mask = false }) {
+  return new Promise((resolve, reject) => {
+    wx.showToast({
+      title,
+      icon,
+      duration,
+      mask,
+      success: function (res) {
+        resolve(res);
+      },
+      fail: function (error) {
+        reject(error);
+      },
+    });
+  });
+}
+
+export function wxHideToast({ title = '失败', icon = 'none', duration = 2000, mask = false }) {
+  return new Promise((resolve, reject) => {
+    wx.hideToast({
+      title,
+      icon,
+      duration,
+      mask,
+      success: function (res) {
+        resolve(res);
+      },
+      fail: function (error) {
+        reject(error);
+      },
+    });
+  });
+}
+
 
 export default wx;

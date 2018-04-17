@@ -11,7 +11,8 @@
 <script>
 // 闯关答题页面
 import garden from '@/components/garden';
-import { wxNavigateTo } from '@/utils/wechat';
+import { wxNavigateTo, wxGetStorage } from '@/utils/wechat';
+import { getHourglass } from '@/api/hourglass';
 
 export default {
   name: 'hourglass',
@@ -93,7 +94,17 @@ export default {
       wxNavigateTo(`../hourglass-subject/main?order=${order}`);
     },
   },
-  created() {},
+  mounted() {
+    wxGetStorage('userInfo').then((res) => {
+      if (res.data) {
+        const userInfo = JSON.parse(res.data);
+        console.log(userInfo);
+        getHourglass({ cst_id: '1' }).then((response) => {
+          console.log(response);
+        });
+      }
+    });
+  },
 };
 </script>
 

@@ -3,7 +3,18 @@ import { wxSetStorage, wxLogin, wxGetUserInfo, wxGetStorage } from '@/utils/wech
 export default {
   methods: {
     loginWeChat() {
-      wxLogin().then(() => {
+      wxLogin().then((res) => {
+        console.log('login', res);
+        if (res.code) {
+          // wxPost({
+          //   url: '',
+          //   data: { code: res.code },
+          // }).then((res) => {
+          //   console.log(res);
+          // }).catch((error) => {
+          //   console.log(error);
+          // });
+        }
         return wxGetUserInfo();
       }).then((response) => {
         this.userInfo = response.userInfo;
