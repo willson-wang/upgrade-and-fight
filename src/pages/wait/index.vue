@@ -41,7 +41,7 @@ export default {
     },
   },
   mounted() {
-    this.getUserInfo();
+    // this.getUserInfo();
   },
   onLoad(opt) {
     console.log(opt, 'onLoad wait');

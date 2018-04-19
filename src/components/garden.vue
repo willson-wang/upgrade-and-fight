@@ -1,5 +1,5 @@
 <template>
-  <div class="garden-wrap" :style="{left: left + 'px'}" @click="linkTo(order)">
+  <div class="garden-wrap" :style="{left: left}" @click="linkTo(order)">
     <div class="garden-content">
       {{order}}
       <div class="garden-lock" v-if="!starts">
@@ -8,7 +8,7 @@
     </div>
     <ul class="garden-star clearfix">
       <li class="f-l" v-if="starts" v-for="(item, index) in newStarts" :key="index">
-        <i class="icon" :class="item >= 1 ? 'icon-star1' : ''"></i>
+        <i class="icon" :class="item >= 1 ? 'icon-star1' : 'icon-star_half'"></i>
       </li>
     </ul>
   </div>
@@ -20,21 +20,19 @@ export default {
   name: 'garden',
   props: {
     order: Number,
-    starts: Number,
+    starts: [Number, String],
     left: Number,
   },
   computed: {
     newStarts() {
       let arr;
       const isInt = parseInt(this.starts, 10) === this.starts;
-      console.log(this.starts);
       if (isInt) {
-        arr = new Array(this.starts).fill(1);
+        arr = new Array(this.starts || 0).fill(1);
       } else {
-        arr = new Array(parseInt(this.starts, 10)).fill(1);
+        arr = new Array(parseInt(this.starts || 0, 10)).fill(1);
         arr.push(0.5);
       }
-      console.log(arr);
       return arr;
     },
   },
@@ -53,7 +51,7 @@ export default {
     position: relative;
     width: 160px;
     height: 60px;
-    margin-top: 10px;
+    margin-top: 30px;
     .garden-content {
       position: absolute;
       left: 50%;
@@ -65,6 +63,7 @@ export default {
       text-align: center;
       line-height: 40px;
       transform: translate(-50%, -60%);
+      background-color: #fff;
     }
 
     .garden-lock {

@@ -1,23 +1,21 @@
 import { wxSetStorage, wxLogin, wxGetUserInfo, wxGetStorage } from '@/utils/wechat';
+import { saveUserInfo, getSessionKey } from '@/api/common';
 
 export default {
   methods: {
     loginWeChat() {
       wxLogin().then((res) => {
-        console.log('login', res);
-        if (res.code) {
-          // wxPost({
-          //   url: '',
-          //   data: { code: res.code },
-          // }).then((res) => {
-          //   console.log(res);
-          // }).catch((error) => {
-          //   console.log(error);
-          // });
-        }
+        console.log('login', res, saveUserInfo);
+        getSessionKey({ code: res.code }).then((response) => {
+          console.log(response);
+        });
         return wxGetUserInfo();
       }).then((response) => {
+        console.log(JSON.parse(response.rawData));
         this.userInfo = response.userInfo;
+        saveUserInfo({ userInfo: JSON.parse(response.rawData) }).then((res) => {
+          console.log(res);
+        });
         wxSetStorage({ key: 'userInfo', data: JSON.stringify(response.userInfo) });
       });
     },

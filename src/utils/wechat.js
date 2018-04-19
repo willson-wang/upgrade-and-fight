@@ -1,3 +1,5 @@
+
+
 export function dialog(opt) {
   const defaultOpt = {
     title: '提示',
@@ -70,6 +72,7 @@ export function wxLogin() {
 export function wxGetUserInfo() {
   return new Promise((resolve, reject) => {
     wx.getUserInfo({
+      withCredentials: true,
       success: function (res) {
         resolve(res);
       },
@@ -270,7 +273,6 @@ export function wxPost({ url, data }) {
 
 export function wxGet({ url, data }) {
   return new Promise((resolve, reject) => {
-    wxShowLoading({});
     wx.request({
       url: `https://killmonster.myscrm.cn${url}`,
       method: 'GET',
@@ -280,11 +282,9 @@ export function wxGet({ url, data }) {
       },
       success: function (res) {
         resolve(res);
-        wxHideLoading({});
       },
       fail: function (error) {
         reject(error);
-        wxHideLoading({});
       },
     });
   });

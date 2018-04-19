@@ -20,7 +20,7 @@
 
 .icon-pointright:before { content: "\e836"; }
 
-.icon-36wujiaoxingpingfenbanxing2:before { content: "\e666"; }
+.icon-star_half:before { content: "\e666"; }
 
 .icon-hourglass3:before { content: "\eb0c"; }
 

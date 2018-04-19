@@ -1,10 +1,11 @@
 <template>
-  <div class="hourglass">
+  <div class="hourglass" :style="{'background-image': backgroundImage}">
     <div class="scoreTotle">
       <i class="icon icon-star1"></i>
       <span>{{currentScoreTotle}}/50</span>
     </div>
-    <garden @linkTo="linkTo" v-for="item in gardenList" :key="item.garden" :order="item.garden" :starts="item.score" :left="item.left"></garden>
+    <garden @linkTo="linkTo" v-for="(item, key) in gardenList" :key="key" :order="item.garden" :starts="item.rank" :left="item.left">
+    </garden>
   </div>
 </template>
 
@@ -13,7 +14,40 @@
 import garden from '@/components/garden';
 import { wxNavigateTo, wxGetStorage } from '@/utils/wechat';
 import { getHourglass } from '@/api/hourglass';
+import imgUrl from '../../../static/images/bg.png';
 
+const POSITION = {
+  1: {
+    left: '17%',
+  },
+  2: {
+    left: '7%',
+  },
+  3: {
+    left: '6%',
+  },
+  4: {
+    left: '9%',
+  },
+  5: {
+    left: '14%',
+  },
+  6: {
+    left: '20%',
+  },
+  7: {
+    left: '28%',
+  },
+  8: {
+    left: '34%',
+  },
+  9: {
+    left: '38%',
+  },
+  10: {
+    left: '37%',
+  },
+};
 export default {
   name: 'hourglass',
   components: {
@@ -22,76 +56,30 @@ export default {
 
   data() {
     return {
-      gardenList: [
-        {
-          garden: 1,
-          score: 5,
-          left: 100,
-        },
-        {
-          garden: 2,
-          score: 4,
-          left: 60,
-        },
-        {
-          garden: 3,
-          score: 4.5,
-          left: 80,
-        },
-        {
-          garden: 4,
-          score: 0,
-          left: 70,
-        },
-        {
-          garden: 5,
-          score: 0,
-          left: 120,
-        },
-        {
-          garden: 6,
-          score: 0,
-          left: 100,
-        },
-        {
-          garden: 7,
-          score: 0,
-          left: 105,
-        },
-        {
-          garden: 8,
-          score: 0,
-          left: 140,
-        },
-        {
-          garden: 9,
-          score: 0,
-          left: 130,
-        },
-        {
-          garden: 10,
-          score: 0,
-          left: 110,
-        },
-      ],
+      gardenList: [],
     };
   },
   computed: {
-    newGardenList() {
-      return this.gardenList.reverse();
-    },
     currentScoreTotle() {
       let totle = 0;
       this.gardenList.forEach((item) => {
-        totle += item.score;
+        totle += item.rank;
       });
       return totle;
+    },
+    backgroundImage() {
+      return `url(${imgUrl})`;
     },
   },
   methods: {
     linkTo(order) {
-      console.log(order);
-      wxNavigateTo(`../hourglass-subject/main?order=${order}`);
+      console.log(this.gardenList[this.gardenList.length - (+order - 1)]);
+      const isGoNext = order > 1 ? (this.gardenList[this.gardenList.length - (+order - 1)].rank >= 3) : true;
+      const chuangguanIds = JSON.stringify(this.gardenList[this.gardenList.length - order].list);
+      if (isGoNext) {
+        console.log(wxNavigateTo, chuangguanIds);
+        wxNavigateTo(`../hourglass-subject/main?order=${order}&chuangguan_ids=${chuangguanIds}`);
+      }
     },
   },
   mounted() {
@@ -100,20 +88,33 @@ export default {
         const userInfo = JSON.parse(res.data);
         console.log(userInfo);
         getHourglass({ cst_id: '1' }).then((response) => {
-          console.log(response);
+          const info = response.data.data;
+          const arr = [];
+          for (const props in info) {
+            if (info.hasOwnProperty(props)) {
+              info[props].left = POSITION[props].left;
+              info[props].garden = props;
+              arr.push(info[props]);
+            }
+          }
+          this.gardenList = arr.reverse();
         });
       }
     });
   },
+  onLoad() {},
 };
 </script>
 
 <style lang="less" scoped>
   @import '../../assets/iconfont/iconfont.wxss';
   .hourglass {
-    height: 100%;
+    height: 154%;
     box-sizing: border-box;
     overflow: auto;
+    // background-image: url('../../../static/images/bg.png');
+    background-size: cover;
+    background-position:center;
     .scoreTotle {
       position: fixed;
       left: 10px;

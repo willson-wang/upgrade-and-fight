@@ -43,13 +43,20 @@ module.exports = {
     'object-shorthand': 0,
     'func-names': 0,
     'arrow-body-style': 0,
-    'no-unused-expressions': 0
+    'no-unused-expressions': 0,
+    'no-plusplus': 0,
+    'prefer-rest-params': 0,
+    'no-use-before-define': 0,
+    'no-restricted-syntax': 0,
+    'no-prototype-builtins': 0,
   },
   globals: {
     App: true,
     Page: true,
     wx: true,
     getApp: true,
-    getPage: true
+    getPage: true,
+    URLSearchParams: true,
+    XMLHttpRequest: true,
   }
 }

@@ -72,7 +72,7 @@ export default {
     },
   },
   created() {
-    this.getUserInfo();
+    // this.getUserInfo();
   },
   onLoad() {
     console.log('onLoad');

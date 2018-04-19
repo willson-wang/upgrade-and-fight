@@ -22,13 +22,13 @@
     </div>
     <div class="hourglass-subject-content" v-for="(subject, index) in subjectList" :key="index" v-if="currentSubjectOrder == subject.order">
       <div class="hourglass-subject-content-title">
-        {{subject.order}}、{{subject.title}}?
+        {{subject.order}}、{{subject.title}}
       </div>
       <ul class="hourglass-subject-content-item">
         <li v-for="(item, itemIndex) in subject.list" :key="itemIndex" >
-          <div :class="[currentItem === itemIndex ? item.isCorrect ? 'active' : 'error' : '']" @click="selectHandler(item, itemIndex, subject.order)">{{item.sub}} {{item.content}}</div>
+          <div :class="[currentItem === itemIndex ? clsName : '']" @click="selectHandler(item, itemIndex, subject.order)">{{item.label}} {{item.answer}}</div>
           <span v-show="select && currentItem == itemIndex">
-            <i v-if="item.isCorrect" class="icon icon-check1" style="color:#35d87f"></i>
+            <i v-if="isCorrect" class="icon icon-check1" style="color:#35d87f"></i>
             <i v-else class="icon icon-error" style="color:#ff455b"></i>
           </span>
         </li>
@@ -60,6 +60,8 @@ export default {
     type: Number,
     userInfo: Object,
     time: Number,
+    isCorrect: Boolean,
+    clsName: String,
   },
   data() {
     return {};
@@ -68,6 +70,9 @@ export default {
     selectHandler(item, index, order) {
       this.$emit('selectEmit', { item, index, order });
     },
+  },
+  mounted() {
+    console.log(this.subjectList);
   },
 };
 </script>
@@ -141,8 +146,8 @@ export default {
     flex-direction: column;
     padding: 0 30px;
     .hourglass-subject-content-title {
-      flex: 0 0 80px;
-      line-height: 80px;
+      flex: 0 0 100px;
+      line-height: 30px;
     }
     .hourglass-subject-content-item {
       flex: 1 0 auto;
@@ -150,8 +155,6 @@ export default {
       width: 100%;
       flex-direction: column;
       li {
-        flex: 0 0 40px;
-        line-height: 40px;
         display: flex;
         margin-bottom: 20px;
         div {
@@ -159,7 +162,7 @@ export default {
           border: 1px solid @color-black;
           font-size: 14px;
           cursor: pointer;
-          padding: 0 2px;
+          padding: 10px 2px;
         }
         span {
           flex: 0 0 14%;
