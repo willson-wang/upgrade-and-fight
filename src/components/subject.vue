@@ -26,10 +26,9 @@
       </div>
       <ul class="hourglass-subject-content-item">
         <li v-for="(item, itemIndex) in subject.list" :key="itemIndex" >
-          <div :class="[currentItem === itemIndex ? clsName : '']" @click="selectHandler(item, itemIndex, subject.order)">{{item.label}} {{item.answer}}</div>
+          <div :class="[currentItem === itemIndex ? cls : '']" @click="selectHandler(item, itemIndex, subject.order)">{{item.label}} {{item.answer}}</div>
           <span v-show="select && currentItem == itemIndex">
-            <i v-if="isCorrect" class="icon icon-check1" style="color:#35d87f"></i>
-            <i v-else class="icon icon-error" style="color:#ff455b"></i>
+            <i  class="icon" :class="correct ? 'icon-check1' : 'icon-error'" :style="{color: correct ? '#35d87f' : '#ff455b'}"></i>
           </span>
         </li>
       </ul>
@@ -46,6 +45,14 @@ export default {
   computed: {
     width() {
       return `${(this.currentSubjectOrder / 10) * 100}`;
+    },
+    cls() {
+      console.log('className', this.clsName);
+      return this.clsName;
+    },
+    correct() {
+      console.log('correct', this.isCorrect);
+      return this.isCorrect;
     },
   },
   components: {

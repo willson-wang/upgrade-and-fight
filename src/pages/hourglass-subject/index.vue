@@ -49,7 +49,7 @@ export default {
             content,
           }).then((res) => {
             if (res.confirm) {
-              wx.navigateTo({ url: '../hourglass/main' });
+              wx.navigateBack({ delta: 1 });
             }
           });
           return;
@@ -58,8 +58,6 @@ export default {
         this.timer = setTimeout(() => {
           this.currentItem = '';
           this.select = false;
-          this.isCorrect = false;
-          this.clsName = '';
           this.currentSubjectOrder += 1;
           this.chuangguanId = this.chuangguanIds[this.currentSubjectOrder - 1].chuangguan_id;
           this.getEveryHourglassSubject(this.chuangguanId, this.currentSubjectOrder);
@@ -74,11 +72,13 @@ export default {
           title: res.data.data.question,
           list: res.data.data.answer,
         });
+        this.isCorrect = false;
+        this.clsName = '';
       });
     },
   },
-  onHide() {
-    console.log('onHide', this.currentSubjectOrder);
+  onUnload() {
+    console.log('onUnload');
     this.subjectList.length = 0;
     this.select = false;
     this.result = 0;

@@ -12,6 +12,7 @@ export default {
   },
   onLaunch(opt) {
     console.log(opt, 'app页面 onlaunch');
+    // 调用应用实例的方法获取全局数据
     wxShowShareMenu().then((res) => {
       console.log('wxShowShareMenu app页面', res);
     });

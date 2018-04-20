@@ -18,12 +18,12 @@
     </div>
     <ul class="column">
       <li v-for="(item, index) in menuList" :key="index" @click="linkTo(item.key)">
-        <p><i class="icon icon-LC_icon_photo_fill"></i></p>
+        <p><img :src="item.url" alt="img"></p>
         <p>{{item.title}}</p>
       </li>
     </ul>
     <div class="rank" @click="linkTo('rank')">
-      <p><i class="icon icon-LC_icon_photo_fill"></i></p>
+      <p><img :src="rankImgUrl" alt="img"></p>
       <p>排行榜</p>
     </div>
   </div>
@@ -35,6 +35,7 @@ import { wxNavigateTo } from '@/utils/wechat';
 import card from '@/components/card';
 import headPhoto from '@/components/head-photo';
 import getWechatInfo from '@/utils/mixins';
+import imgRankUrl from '../../../static/images/rank.png';
 
 export default {
   data() {
@@ -46,16 +47,20 @@ export default {
         {
           title: '错题库',
           key: 'error',
+          url: imgRankUrl,
         },
         {
           title: 'PK场',
           key: 'pk',
+          url: imgRankUrl,
         },
         {
           title: '终极考核室',
           key: 'final',
+          url: imgRankUrl,
         },
       ],
+      rankImgUrl: imgRankUrl,
     };
   },
   mixins: [getWechatInfo],
@@ -103,9 +108,7 @@ export default {
       STATUS.go(key);
     },
   },
-
   created() {
-    // 调用应用实例的方法获取全局数据
     this.getUserInfo();
   },
 };
@@ -215,12 +218,8 @@ export default {
     text-align: center;
     font-size: 16px;
     img {
-      width: 100px;
-      height: 100px;
-    }
-
-    i {
-      font-size: 60px;
+      width: 80px;
+      height: 80px;
     }
   } 
 }
@@ -230,8 +229,9 @@ export default {
   width: 100%;
   flex-direction: column;
   text-align: center;
-  font-size: 16px;
+  font-size: 14px;
   padding-bottom: 30px;
+  margin-top: 10px;
   img {
     width: 50px;
     height: 50px;

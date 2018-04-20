@@ -11,10 +11,12 @@ export default {
         });
         return wxGetUserInfo();
       }).then((response) => {
-        console.log(JSON.parse(response.rawData));
+        console.log(response, JSON.parse(response.rawData));
         this.userInfo = response.userInfo;
         saveUserInfo({ userInfo: JSON.parse(response.rawData) }).then((res) => {
-          console.log(res);
+          wxSetStorage({ key: 'userId', data: res.data.id });
+        }).catch((err) => {
+          console.log(err);
         });
         wxSetStorage({ key: 'userInfo', data: JSON.stringify(response.userInfo) });
       });
