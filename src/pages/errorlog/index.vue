@@ -4,46 +4,135 @@
         <div class="error-item" v-for="(error,index) in errorLogs" :key="index">
           <div class="title">
             <div class="question">{{error.question}}</div>
-            <div class="bookmark">取消收藏</div>
+            <div class="bookmark" @click="e => cancelBookmark(e,error.id)">取消收藏</div>
           </div>
-          <div class="log-at">收藏于: {{error.logAt}}</div>
+          <div class="log-at">收藏于: {{error.created_on}}</div>
         </div>
       </div>
   </div>
 </template>
 
 <script>
+import { getErrorLibList, cancelCollect } from '@/api/errorlog';
+
 export default {
   data() {
     return {
       errorLogs: [
         {
-          question: '云客的全称是什么？',
-          logAt: '2018-2-16 17:09:09',
+          id: '68',
+          type: 1,
+          question: 'ERP中签约的置业顾问是A，上了云客后数据同步到云客，而置业顾问A这时候离职了，把这个客户分给置业顾问B，那签约的业绩属于A还是属于B的？ ',
+          created_on: '2018-04-14 19:02:43',
+          modified_on: '2018-04-14 19:02:43',
+          answer: {
+            quest_id: 68,
+            question: 'ERP中签约的置业顾问是A，上了云客后数据同步到云客，而置业顾问A这时候离职了，把这个客户分给置业顾问B，那签约的业绩属于A还是属于B的？ ',
+            answer: [
+              {
+                label: 'A',
+                answer: '属于置业顾问A',
+                answer_id: 189,
+                is_right: 1,
+              },
+              {
+                label: 'B',
+                answer: '属于置业顾问B',
+                answer_id: 190,
+                is_right: 0,
+              },
+            ],
+          },
           bookmark: true,
         },
         {
-          question: '云客的全称是什么？云客的全称是什么？云客的全称是什么？云客的全称是什么？云客的全称是什么？云客的全称是什么？云客的全称是什么？云客的全称是什么？',
-          logAt: '2018-2-16 17:09:09',
+          id: '68',
+          type: 1,
+          question: 'ERP中签约的置业顾问是A，上了云客后数据同步到云客，而置业顾问A这时候离职了，把这个客户分给置业顾问B，那签约的业绩属于A还是属于B的？ ',
+          created_on: '2018-04-14 19:02:43',
+          modified_on: '2018-04-14 19:02:43',
+          answer: {
+            quest_id: 68,
+            question: 'ERP中签约的置业顾问是A，上了云客后数据同步到云客，而置业顾问A这时候离职了，把这个客户分给置业顾问B，那签约的业绩属于A还是属于B的？ ',
+            answer: [
+              {
+                label: 'A',
+                answer: '属于置业顾问A',
+                answer_id: 189,
+                is_right: 1,
+              },
+              {
+                label: 'B',
+                answer: '属于置业顾问B',
+                answer_id: 190,
+                is_right: 0,
+              },
+            ],
+          },
           bookmark: true,
         },
         {
-          question: '云客的CEO是谁？',
-          logAt: '2018-2-16 17:09:09',
+          id: '68',
+          type: 1,
+          question: 'ERP中签约的置业顾问是A，上了云客后数据同步到云客，而置业顾问A这时候离职了，把这个客户分给置业顾问B，那签约的业绩属于A还是属于B的？ ',
+          created_on: '2018-04-14 19:02:43',
+          modified_on: '2018-04-14 19:02:43',
+          answer: {
+            quest_id: 68,
+            question: 'ERP中签约的置业顾问是A，上了云客后数据同步到云客，而置业顾问A这时候离职了，把这个客户分给置业顾问B，那签约的业绩属于A还是属于B的？ ',
+            answer: [
+              {
+                label: 'A',
+                answer: '属于置业顾问A',
+                answer_id: 189,
+                is_right: 1,
+              },
+              {
+                label: 'B',
+                answer: '属于置业顾问B',
+                answer_id: 190,
+                is_right: 0,
+              },
+            ],
+          },
           bookmark: true,
         },
         {
-          question: '云客的CEO是谁？',
-          logAt: '2018-2-16 17:09:09',
-          bookmark: true,
-        },
-        {
-          question: '云客的CEO是谁？',
-          logAt: '2018-2-16 17:09:09',
+          id: '68',
+          type: 1,
+          question: 'ERP中签约的置业顾问是A，上了云客后数据同步到云客，而置业顾问A这时候离职了，把这个客户分给置业顾问B，那签约的业绩属于A还是属于B的？ ',
+          created_on: '2018-04-14 19:02:43',
+          modified_on: '2018-04-14 19:02:43',
+          answer: {
+            quest_id: 68,
+            question: 'ERP中签约的置业顾问是A，上了云客后数据同步到云客，而置业顾问A这时候离职了，把这个客户分给置业顾问B，那签约的业绩属于A还是属于B的？ ',
+            answer: [
+              {
+                label: 'A',
+                answer: '属于置业顾问A',
+                answer_id: 189,
+                is_right: 1,
+              },
+              {
+                label: 'B',
+                answer: '属于置业顾问B',
+                answer_id: 190,
+                is_right: 0,
+              },
+            ],
+          },
           bookmark: true,
         },
       ],
     };
+  },
+  methods: {
+    cancelBookmark(e, questId) {
+      cancelCollect({ quest_id: questId });
+    },
+  },
+  created() {
+    getErrorLibList({ pageno: 1 });
   },
 };
 </script>

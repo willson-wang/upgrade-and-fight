@@ -1,7 +1,13 @@
 <template>
   <div class="rank-container">
       <div class="rank-overview">
-        <div class="rank-avatar">假装是头像</div>
+        <div class="rank-avatar">
+          <div class="userinfo">
+            <head-photo :user-info="userInfo"></head-photo>
+            <div><i class="icon icon-star1"></i></div>
+            <div>66</div>
+          </div>
+        </div>
         <div class="rank-rst">
           <div class="total-ov">总榜: NO {{myRank.total}}</div>
           <div class="pk-ov">PK榜: NO {{myRank.pk}}</div>
@@ -24,14 +30,17 @@
 </template>
 
 <script>
+import headPhoto from '@/components/head-photo';
+import getWechatInfo from '@/utils/mixins';
 import ranklist from './ranklist';
 
 export default {
   components: {
-    ranklist,
+    headPhoto, ranklist,
   },
   data() {
     return {
+      userInfo: {},
       currentTab: 'total',
       myRank: {
         total: 1,
@@ -147,11 +156,15 @@ export default {
       return this.currentTab;
     },
   },
+  mixins: [getWechatInfo],
   methods: {
     switchTab(e, tabKey) {
       this.currentTab = tabKey;
       console.log(tabKey, 'adsfa');
     },
+  },
+  created() {
+    this.getUserInfo();
   },
 };
 </script>
