@@ -56,6 +56,7 @@ Dark White #F9FAFC Extra Light Gray #d1dbe5
   background-color: @color-body-bg;
   color: @color-font1;
   overflow: hidden;
+  padding-bottom: 10px;
 }
 /* this rule will be remove */
 * {

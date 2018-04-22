@@ -82,7 +82,8 @@ export default {
       }
     },
   },
-  mounted() {
+  onShow() {
+    console.log('hourglass mounted');
     wxGetStorage('userInfo')
     .then((res) => {
       if (res.data) {
@@ -112,7 +113,9 @@ export default {
       console.log(err);
     });
   },
-  onLoad() {},
+  onLoad() {
+    console.log('hourglass onload');
+  },
 };
 </script>
 

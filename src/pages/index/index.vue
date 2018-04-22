@@ -35,7 +35,10 @@ import { wxNavigateTo } from '@/utils/wechat';
 import card from '@/components/card';
 import headPhoto from '@/components/head-photo';
 import getWechatInfo from '@/utils/mixins';
-import imgRankUrl from '../../../static/images/rank.png';
+// import imgRankUrl from '../../../static/images/rank.png';
+// import imgErrorUrl from '../../../static/images/error.png';
+// import imgExamUrl from '../../../static/images/exam.jpg';
+// import imgPkUrl from '../../../static/images/pk.jpg';
 
 export default {
   data() {
@@ -47,20 +50,20 @@ export default {
         {
           title: '错题库',
           key: 'error',
-          url: imgRankUrl,
+          url: 'http://bpic.588ku.com/element_origin_min_pic/17/07/17/08422e8854043dcffccf8fc0193d63da.jpg',
         },
         {
           title: 'PK场',
           key: 'pk',
-          url: imgRankUrl,
+          url: 'http://bpic.588ku.com/element_origin_min_pic/17/09/20/b7cb900c6b825ed77026c885eb173de7.jpg',
         },
         {
           title: '终极考核室',
           key: 'final',
-          url: imgRankUrl,
+          url: 'http://bpic.588ku.com/element_origin_min_pic/17/01/12/3573ee12f445250eda12d4ec286962f3.jpg',
         },
       ],
-      rankImgUrl: imgRankUrl,
+      rankImgUrl: 'http://bpic.588ku.com/element_origin_min_pic/16/11/12/6925f876ea91c5463bc40113ee298fdb.jpg',
     };
   },
   mixins: [getWechatInfo],
@@ -210,7 +213,7 @@ export default {
   flex: 1 0 auto;
   width: 100%;
   display: flex;
-  padding-top: 30px;
+  padding-top: 15px;
   li {
     flex: 1 0 33.3%;
     flex-direction: column;
