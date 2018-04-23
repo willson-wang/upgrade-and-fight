@@ -20,7 +20,7 @@
         <span></span>
       </div>
     </div>
-    <div class="hourglass-subject-content" v-for="subject in subjectList" :key="subject.order">
+    <div class="hourglass-subject-content" v-for="subject in subjectList" :key="subject.order" :class="animateClass">
       <div class="hourglass-subject-content-title">
         {{subject.order}}、{{subject.title}}
       </div>
@@ -54,13 +54,16 @@ export default {
       let iconCls = '';
       if (this.clsName === 'active') {
         this.iconColor = '#35d87f';
+        this.animateClass = 'animated rotateOutDownLeft';
         iconCls = 'icon-check1';
       } else if (this.clsName === 'error') {
         iconCls = 'icon-error';
         this.iconColor = '#ff455b';
+        this.animateClass = 'animated rotateOutDownLeft';
       } else {
         iconCls = '';
         this.iconColor = '';
+        this.animateClass = '';
       }
       console.log('iconCls', iconCls);
       return iconCls;
@@ -87,12 +90,20 @@ export default {
   data() {
     return {
       iconColor: '',
+      animateClass: '',
+      timer: '',
     };
   },
   methods: {
     selectHandler(item, index, order) {
-      this.$emit('selectEmit', { item, index, order });
+      clearTimeout(this.timer);
+      this.timer = setTimeout(() => {
+        this.$emit('selectEmit', { item, index, order });
+      }, 600);
     },
+  },
+  onUnload() {
+    clearTimeout(this.timer);
   },
   mounted() {
     console.log(this.subjectList);
@@ -124,6 +135,7 @@ export default {
         width: 0%;
         height: 6px;
         background-color: @color-progress;
+        transition: width 1s ease;
       }
     }
     >span {
@@ -185,7 +197,9 @@ export default {
           border: 1px solid @color-black;
           font-size: 14px;
           cursor: pointer;
-          padding: 10px 2px;
+          padding: 10px 5px;
+          border-radius: 6px;
+          box-shadow: 1px 1px 1px 1px #000;
         }
         span {
           flex: 0 0 14%;

@@ -1,7 +1,7 @@
 <template>
   <div class="hourglass" :style="{'background-image': backgroundImage}">
     <div class="scoreTotle">
-      <i class="icon icon-star1"></i>
+      <i  class="icon icon-star1 star-flick"></i>
       <span>{{currentScoreTotle}}/50</span>
     </div>
     <garden @linkTo="linkTo" v-for="(item, key) in gardenList" :key="key" :order="item.garden" :starts="item.rank" :left="item.left">
@@ -83,17 +83,20 @@ export default {
     },
   },
   onShow() {
+    // 放在onshow的目的是，在其它页面使用navigateBack时，能够重新调用一次接口
     console.log('hourglass mounted');
     wxGetStorage('userInfo')
     .then((res) => {
       if (res.data) {
         const userInfo = JSON.parse(res.data);
-        console.log(userInfo);
+        console.log('userInfo', userInfo);
         return wxGetStorage('userId');
       }
     })
     .then((r) => {
+      console.log('r', r);
       if (r.data) {
+        console.log('cst_id', r.data);
         return getHourglass({ cst_id: r.data });
       }
     })
@@ -121,6 +124,7 @@ export default {
 
 <style lang="less" scoped>
 // 直接使用background引入背景图片路径有问题，所以改成动态设置背景图，这里需要注意的是，如果是本地图片，动态设置也不行，需要把图片大小转化成满足转成base64要求大小，另外也已使用在线图片
+  @import '../../assets/less/index';
   @import '../../assets/iconfont/iconfont.wxss';
   .hourglass {
     height: 154%;
@@ -140,6 +144,7 @@ export default {
       }
       i {
         font-size: 30px;
+        color: #e2df12;
       }
     }
   }
