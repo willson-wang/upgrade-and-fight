@@ -21,11 +21,11 @@ export function formatTime(date) {
 export function debounce(fn, time) {
   let timer = null;
   return function () {
-    console.log(arguments[0]);// eslint-disable-line
+    console.log(fn, arguments);// eslint-disable-line
     clearTimeout(timer);
     // 这里使用function，在call方法的时候，fn函数内拿不到传入的参数，而箭头函数的时候则正常
     timer = setTimeout(() => {
-      fn.call(null, arguments[0]); // eslint-disable-line
+      fn.call(null, arguments[0], arguments[1], arguments[2], arguments[3]); // eslint-disable-line
     }, time);
   };
 }

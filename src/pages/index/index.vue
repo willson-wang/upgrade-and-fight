@@ -17,12 +17,12 @@
       <div class="progress-button" @click="startHourglass">开始闯关</div>
     </div>
     <ul class="column">
-      <li v-for="(item, index) in menuList" :key="index" @click="linkTo(item.key)">
+      <li v-for="(item, index) in menuList" :key="index" @click="linkTo(item.key)" class="animated shake">
         <p><img :src="item.url" alt="img"></p>
         <p>{{item.title}}</p>
       </li>
     </ul>
-    <div class="rank" @click="linkTo('rank')">
+    <div class="rank animated shake" @click="linkTo('rank')" >
       <p><img :src="rankImgUrl" alt="img"></p>
       <p>排行榜</p>
     </div>
@@ -31,21 +31,17 @@
 
 <script>
 // 首页
-import { wxNavigateTo } from '@/utils/wechat';
+import { wxNavigateTo, wxShowToast } from '@/utils/wechat';
 import card from '@/components/card';
 import headPhoto from '@/components/head-photo';
 import getWechatInfo from '@/utils/mixins';
-// import imgRankUrl from '../../../static/images/rank.png';
-// import imgErrorUrl from '../../../static/images/error.png';
-// import imgExamUrl from '../../../static/images/exam.jpg';
-// import imgPkUrl from '../../../static/images/pk.jpg';
 
 export default {
   data() {
     return {
       motto: 'Hello World',
       userInfo: {},
-      checkPoint: 1,
+      checkPoint: 7,
       menuList: [
         {
           title: '错题库',
@@ -96,7 +92,10 @@ export default {
           STATUS[`state_${name}`] && STATUS[`state_${name}`]();
         },
         state_pk: function () {
-          wxNavigateTo('../pk/main');
+          wxShowToast({
+            title: '开发中，敬请期待...',
+          });
+          // wxNavigateTo('../pk/main');
         },
         state_error: function () {
           wxNavigateTo('../errorlog/main');
@@ -136,7 +135,9 @@ export default {
 
   i {
     font-size: 30px;
+    color: #e2df12;
   }
+
 }
 
 .progress-wrap {
@@ -170,6 +171,7 @@ export default {
       top: 0; 
       left: 0; 
       transform: rotate(0deg); 
+      transition: transform 1s ease;
     }
     .pie_right, .right { 
       clip:rect(0,auto,auto,100px); 
