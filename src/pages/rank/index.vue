@@ -158,6 +158,9 @@ export default {
 
 <style lang="less">
 .rank-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
   .rank-overview {
     position: relative;
     margin-top: 100rpx;
@@ -178,13 +181,18 @@ export default {
     }
   }
   .rank-page {
+    flex-grow: 1;
+    margin-top: 60rpx;
     background-color: #8f949a;
-    min-height: 60vh;
     .tabs {
       display: flex;
       justify-content: space-between;
       .tab {
-        background-color: #ffffff;
+        // width: 160rpx;
+        // height: 40rpx;
+        // border-top: 160rpx solid #FFFFFF;
+        // border-left: 80rpx solid transparent;
+        // border-right: 80rpx solid transparent;
       }
     }
   }
