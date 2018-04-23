@@ -49,6 +49,7 @@ module.exports = {
     'no-use-before-define': 0,
     'no-restricted-syntax': 0,
     'no-prototype-builtins': 0,
+    'consistent-return': 0,
   },
   globals: {
     App: true,

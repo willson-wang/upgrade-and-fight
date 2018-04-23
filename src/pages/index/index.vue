@@ -18,12 +18,12 @@
     </div>
     <ul class="column">
       <li v-for="(item, index) in menuList" :key="index" @click="linkTo(item.key)">
-        <p><i class="icon icon-LC_icon_photo_fill"></i></p>
+        <p><img :src="item.url" alt="img"></p>
         <p>{{item.title}}</p>
       </li>
     </ul>
     <div class="rank" @click="linkTo('rank')">
-      <p><i class="icon icon-LC_icon_photo_fill"></i></p>
+      <p><img :src="rankImgUrl" alt="img"></p>
       <p>排行榜</p>
     </div>
   </div>
@@ -35,6 +35,10 @@ import { wxNavigateTo } from '@/utils/wechat';
 import card from '@/components/card';
 import headPhoto from '@/components/head-photo';
 import getWechatInfo from '@/utils/mixins';
+// import imgRankUrl from '../../../static/images/rank.png';
+// import imgErrorUrl from '../../../static/images/error.png';
+// import imgExamUrl from '../../../static/images/exam.jpg';
+// import imgPkUrl from '../../../static/images/pk.jpg';
 
 export default {
   data() {
@@ -46,16 +50,20 @@ export default {
         {
           title: '错题库',
           key: 'error',
+          url: 'http://bpic.588ku.com/element_origin_min_pic/17/07/17/08422e8854043dcffccf8fc0193d63da.jpg',
         },
         {
           title: 'PK场',
           key: 'pk',
+          url: 'http://bpic.588ku.com/element_origin_min_pic/17/09/20/b7cb900c6b825ed77026c885eb173de7.jpg',
         },
         {
           title: '终极考核室',
           key: 'final',
+          url: 'http://bpic.588ku.com/element_origin_min_pic/17/01/12/3573ee12f445250eda12d4ec286962f3.jpg',
         },
       ],
+      rankImgUrl: 'http://bpic.588ku.com/element_origin_min_pic/16/11/12/6925f876ea91c5463bc40113ee298fdb.jpg',
     };
   },
   mixins: [getWechatInfo],
@@ -103,9 +111,7 @@ export default {
       STATUS.go(key);
     },
   },
-
   created() {
-    // 调用应用实例的方法获取全局数据
     this.getUserInfo();
   },
 };
@@ -207,7 +213,7 @@ export default {
   flex: 1 0 auto;
   width: 100%;
   display: flex;
-  padding-top: 30px;
+  padding-top: 15px;
   li {
     flex: 1 0 33.3%;
     flex-direction: column;
@@ -215,12 +221,8 @@ export default {
     text-align: center;
     font-size: 16px;
     img {
-      width: 100px;
-      height: 100px;
-    }
-
-    i {
-      font-size: 60px;
+      width: 80px;
+      height: 80px;
     }
   } 
 }
@@ -230,8 +232,9 @@ export default {
   width: 100%;
   flex-direction: column;
   text-align: center;
-  font-size: 16px;
+  font-size: 14px;
   padding-bottom: 30px;
+  margin-top: 10px;
   img {
     width: 50px;
     height: 50px;

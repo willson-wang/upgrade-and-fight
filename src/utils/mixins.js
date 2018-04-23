@@ -11,11 +11,8 @@ export default {
         });
         return wxGetUserInfo();
       }).then((response) => {
-        console.log(JSON.parse(response.rawData));
+        console.log(response, JSON.parse(response.rawData));
         this.userInfo = response.userInfo;
-        saveUserInfo({ userInfo: JSON.parse(response.rawData) }).then((res) => {
-          console.log(res);
-        });
         wxSetStorage({ key: 'userInfo', data: JSON.stringify(response.userInfo) });
       });
     },
@@ -24,6 +21,12 @@ export default {
       wxGetStorage('userInfo').then((res) => {
         if (res.data) {
           this.userInfo = JSON.parse(res.data);
+          saveUserInfo({ userInfo: JSON.parse(res.data) }).then((response) => {
+            console.log('执行saveUserInfo');
+            wxSetStorage({ key: 'userId', data: response.data.id });
+          }).catch((err) => {
+            console.log(err);
+          });
           return;
         }
         this.loginWeChat();

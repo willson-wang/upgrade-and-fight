@@ -20,16 +20,15 @@
         <span></span>
       </div>
     </div>
-    <div class="hourglass-subject-content" v-for="(subject, index) in subjectList" :key="index" v-if="currentSubjectOrder == subject.order">
+    <div class="hourglass-subject-content" v-for="subject in subjectList" :key="subject.order">
       <div class="hourglass-subject-content-title">
         {{subject.order}}、{{subject.title}}
       </div>
       <ul class="hourglass-subject-content-item">
-        <li v-for="(item, itemIndex) in subject.list" :key="itemIndex" >
-          <div :class="[currentItem === itemIndex ? clsName : '']" @click="selectHandler(item, itemIndex, subject.order)">{{item.label}} {{item.answer}}</div>
-          <span v-show="select && currentItem == itemIndex">
-            <i v-if="isCorrect" class="icon icon-check1" style="color:#35d87f"></i>
-            <i v-else class="icon icon-error" style="color:#ff455b"></i>
+        <li v-for="(item, itemIndex) in subject.list" :key="item.answer_id" >
+          <div :class="[currentItem === itemIndex ? cls : '']" @click="selectHandler(item, itemIndex, subject.order)">{{item.label}} {{item.answer}}</div>
+          <span v-if="select && currentItem == itemIndex">
+            <i  class="icon" :class="[iconClass]" :style="{color: iconColor}"></i>
           </span>
         </li>
       </ul>
@@ -46,6 +45,28 @@ export default {
   computed: {
     width() {
       return `${(this.currentSubjectOrder / 10) * 100}`;
+    },
+    cls() {
+      console.log('className', this.clsName);
+      return this.clsName;
+    },
+    iconClass() {
+      let iconCls = '';
+      if (this.clsName === 'active') {
+        this.iconColor = '#35d87f';
+        iconCls = 'icon-check1';
+      } else if (this.clsName === 'error') {
+        iconCls = 'icon-error';
+        this.iconColor = '#ff455b';
+      } else {
+        iconCls = '';
+        this.iconColor = '';
+      }
+      console.log('iconCls', iconCls);
+      return iconCls;
+    },
+    icon() {
+
     },
   },
   components: {
@@ -64,7 +85,9 @@ export default {
     clsName: String,
   },
   data() {
-    return {};
+    return {
+      iconColor: '',
+    };
   },
   methods: {
     selectHandler(item, index, order) {

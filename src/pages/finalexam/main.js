@@ -6,6 +6,6 @@ app.$mount();
 
 export default {
   config: {
-    navigationBarTitleText: '错题库',
+    navigationBarTitleText: '终极考核室',
   },
 };

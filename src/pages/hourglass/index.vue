@@ -82,31 +82,45 @@ export default {
       }
     },
   },
-  mounted() {
-    wxGetStorage('userInfo').then((res) => {
+  onShow() {
+    console.log('hourglass mounted');
+    wxGetStorage('userInfo')
+    .then((res) => {
       if (res.data) {
         const userInfo = JSON.parse(res.data);
         console.log(userInfo);
-        getHourglass({ cst_id: '1' }).then((response) => {
-          const info = response.data.data;
-          const arr = [];
-          for (const props in info) {
-            if (info.hasOwnProperty(props)) {
-              info[props].left = POSITION[props].left;
-              info[props].garden = props;
-              arr.push(info[props]);
-            }
-          }
-          this.gardenList = arr.reverse();
-        });
+        return wxGetStorage('userId');
       }
+    })
+    .then((r) => {
+      if (r.data) {
+        return getHourglass({ cst_id: r.data });
+      }
+    })
+    .then((response) => {
+      const info = response.data.data;
+      const arr = [];
+      for (const props in info) {
+        if (info.hasOwnProperty(props)) {
+          info[props].left = POSITION[props].left;
+          info[props].garden = props;
+          arr.push(info[props]);
+        }
+      }
+      this.gardenList = arr.reverse();
+    })
+    .catch((err) => {
+      console.log(err);
     });
   },
-  onLoad() {},
+  onLoad() {
+    console.log('hourglass onload');
+  },
 };
 </script>
 
 <style lang="less" scoped>
+// 直接使用background引入背景图片路径有问题，所以改成动态设置背景图，这里需要注意的是，如果是本地图片，动态设置也不行，需要把图片大小转化成满足转成base64要求大小，另外也已使用在线图片
   @import '../../assets/iconfont/iconfont.wxss';
   .hourglass {
     height: 154%;
