@@ -1,11 +1,13 @@
 <template>
   <div class="hourglass" :style="{'background-image': backgroundImage}">
-    <div class="scoreTotle">
-      <i  class="icon icon-star1 star-flick"></i>
-      <span>{{currentScoreTotle}}/50</span>
+    <div class="hourglass-content" :style="{'background-image': ''}">
+      <div class="scoreTotle">
+        <i  class="icon icon-star1"></i>
+        <span>{{currentScoreTotle}}/50</span>
+      </div>
+      <garden @linkTo="linkTo" v-for="(item, key) in gardenList" :key="key" :order="item.garden" :starts="item.rank" :left="item.left">
+      </garden>
     </div>
-    <garden @linkTo="linkTo" v-for="(item, key) in gardenList" :key="key" :order="item.garden" :starts="item.rank" :left="item.left">
-    </garden>
   </div>
 </template>
 
@@ -14,7 +16,8 @@
 import garden from '@/components/garden';
 import { wxNavigateTo, wxGetStorage } from '@/utils/wechat';
 import { getHourglass } from '@/api/hourglass';
-import imgUrl from '../../../static/images/bg.png';
+import imgUrl from '../../../static/images/bg-big.jpg';
+import imgUrl2 from '../../../static/images/bg.png';
 
 const POSITION = {
   1: {
@@ -69,6 +72,9 @@ export default {
     },
     backgroundImage() {
       return `url(${imgUrl})`;
+    },
+    backgroundImage2() {
+      return `url(${imgUrl2})`;
     },
   },
   methods: {
@@ -133,6 +139,13 @@ export default {
     // background-image: url('../../../static/images/bg.png');
     background-size: cover;
     background-position:center;
+    .hourglass-content {
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-size: cover;
+      background-position:center;
+    }
     .scoreTotle {
       position: fixed;
       left: 10px;
@@ -144,7 +157,7 @@ export default {
       }
       i {
         font-size: 30px;
-        color: #e2df12;
+        color: #1a2667;
       }
     }
   }

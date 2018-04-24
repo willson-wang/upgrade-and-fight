@@ -1,5 +1,5 @@
 <template>
-  <div class="hourglass-subject-wrap">
+  <div class="hourglass-subject-wrap" @click="selectHandler">
     <div class="hourglass-subject-progress" v-if="type === 1">
       <div>
         <span :style="{width: width + '%'}"></span>
@@ -26,7 +26,7 @@
       </div>
       <ul class="hourglass-subject-content-item">
         <li v-for="(item, itemIndex) in subject.list" :key="item.answer_id" >
-          <div :class="[currentItem === itemIndex ? cls : '']" @click="selectHandler(item, itemIndex, subject.order)">{{item.label}} {{item.answer}}</div>
+          <div :class="[currentItem === itemIndex ? cls : '']" :data-id="item.answer_id" :data-index="itemIndex" :data-order="subject.order">{{item.label}} {{item.answer}}</div>
           <span v-if="select && currentItem == itemIndex">
             <i  class="icon" :class="[iconClass]" :style="{color: iconColor}"></i>
           </span>
@@ -47,7 +47,6 @@ export default {
       return `${(this.currentSubjectOrder / 10) * 100}`;
     },
     cls() {
-      console.log('className', this.clsName);
       return this.clsName;
     },
     iconClass() {
@@ -65,7 +64,6 @@ export default {
         this.iconColor = '';
         this.animateClass = '';
       }
-      console.log('iconCls', iconCls);
       return iconCls;
     },
     icon() {
@@ -95,10 +93,14 @@ export default {
     };
   },
   methods: {
-    selectHandler(item, index, order) {
+    selectHandler(e) {
       clearTimeout(this.timer);
       this.timer = setTimeout(() => {
-        this.$emit('selectEmit', { item, index, order });
+        const data = e.target.dataset;
+        if (data.order) {
+          this.$emit('selectEmit', { id: data.id, index: data.index, order: data.order });
+        }
+        console.log(e);
       }, 600);
     },
   },
