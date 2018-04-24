@@ -101,7 +101,9 @@ export default {
       wx.navigateTo({ url });
     },
     startHourglass() {
-      wxNavigateTo('../hourglass/main');
+      wxNavigateTo('../hourglass/main').catch((e) => {
+        console.log('../hourglass/main', e);
+      });
     },
     linkTo(key) {
       const STATUS = {

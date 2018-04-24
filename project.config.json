@@ -51,8 +51,14 @@
 				},
 				{
 					"id": -1,
+<<<<<<< HEAD
 					"name": "pages/errorlog",
 					"pathName": "pages/errorlog/main"
+=======
+					"name": "闯关答题",
+					"pathName": "pages/hourglass-subject/main",
+					"query": ""
+>>>>>>> dev
 				}
 			]
 		}

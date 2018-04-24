@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container hourglass-bg" :style="{'background-image': backgroundImage}">
     <subject :subject-list="subjectList" @selectEmit="selectHandler" :select="select" :result="result" :current-subject-order="currentSubjectOrder" :current-item="currentItem" :type="1" :is-correct="isCorrect" :cls-name="clsName"></subject>
   </div>
 </template>
@@ -8,7 +8,8 @@
 // 闯关具体答题
 import subject from '@/components/subject';
 import { getHourglassSubject, getHourglassSubjectAnswer } from '@/api/hourglass';
-import wx, { dialog } from '../../utils/wechat';
+import wx, { dialog, wxGetStorage } from '../../utils/wechat';
+import imgUrl from '../../../static/images/bg-big.jpg';
 
 export default {
   name: 'hourglassSubject',
@@ -26,6 +27,11 @@ export default {
       isCorrect: false,
       clsName: '',
     };
+  },
+  computed: {
+    backgroundImage() {
+      return `url(${imgUrl})`;
+    },
   },
   methods: {
     selectHandler({ id, index, order }) {
@@ -90,10 +96,13 @@ export default {
     clearTimeout(this.timer);
   },
   onLoad(opt) {
+    wxGetStorage('chuangguanIds').then((res) => {
+      console.log(res);
+      this.chuangguanIds = JSON.parse(res.data);
+      this.chuangguanId = this.chuangguanIds[this.currentSubjectOrder - 1].chuangguan_id;
+      this.getEveryHourglassSubject(this.chuangguanId, this.currentSubjectOrder);
+    });
     console.log('onload', opt, this.currentSubjectOrder);
-    this.chuangguanIds = JSON.parse(opt.chuangguan_ids);
-    this.chuangguanId = this.chuangguanIds[this.currentSubjectOrder - 1].chuangguan_id;
-    this.getEveryHourglassSubject(this.chuangguanId, this.currentSubjectOrder);
   },
 };
 </script>
@@ -101,6 +110,11 @@ export default {
 <style lang="less" scoped>
 .container {
   justify-content: flex-start;
+}
+
+.hourglass-bg {
+  background-size: cover;
+  background-position:center;
 }
 </style>
 
