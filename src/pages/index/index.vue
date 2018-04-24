@@ -1,5 +1,5 @@
 <template>
-  <div class="container index-bg" :style="{'background-image': indexBg}">
+  <div class="container index-bg" :style="{'background': indexBg}">
     <div class="userinfo" @click="bindViewTap">
       <head-photo :user-info="userInfo"></head-photo>
       <div><i class="icon icon-star1"></i></div>
@@ -63,7 +63,7 @@ export default {
         },
       ],
       rankImgUrl: rankUrl,
-      indexBg: 'url(https://miao.su/images/2018/04/24/bg-big3de1e.jpg)',
+      indexBg: 'url(http://ww1.sinaimg.cn/large/b0f3038egy1fqo7nsmo8gj20hs0vktaw.jpg)',
       personHourglassInfo: {},
     };
   },

@@ -71,7 +71,7 @@ export default {
       return totle;
     },
     backgroundImage() {
-      return 'url(https://miao.su/images/2018/04/24/hourglass-bg18330.png)';
+      return 'url(http://ww1.sinaimg.cn/large/b0f3038egy1fqo7ptfv4wj20ch0k77gj.jpg)';
     },
     backgroundImage2() {
       return `url(${imgUrl2})`;

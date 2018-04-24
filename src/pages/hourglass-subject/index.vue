@@ -30,7 +30,7 @@ export default {
   },
   computed: {
     backgroundImage() {
-      return 'url(https://miao.su/images/2018/04/24/hourglass-bg1198f.jpg)';
+      return 'url(http://ww1.sinaimg.cn/large/b0f3038egy1fqo7qzok7kj20ia0widin.jpg)';
     },
   },
   methods: {
