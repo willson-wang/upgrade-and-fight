@@ -1,24 +1,26 @@
 <template>
   <div class="rank-container">
+    <!-- <div class="bg" :style="{'background-image': indexBg}"></div> -->
       <div class="rank-overview">
         <div class="rank-avatar">
           <div class="userinfo">
             <head-photo :user-info="userInfo"></head-photo>
             <div><i class="icon icon-star1"></i></div>
-            <div>66</div>
+            <div>{{myRank.star_num}}</div>
           </div>
         </div>
         <div class="rank-rst">
-          <div class="total-ov">总榜: NO {{myRank.total}}</div>
-          <div class="pk-ov">PK榜: NO {{myRank.pk}}</div>
-          <div class="final-ov">考核榜: NO {{myRank.final}}</div>
+          <div class="total-ov">总榜: NO {{myRank.total_rank}}</div>
+          <div class="pk-ov">PK榜: NO {{myRank.pk_rank}}</div>
+          <div class="final-ov">考核榜: NO {{myRank.exam_rank}}</div>
         </div>
       </div>
       <div class="rank-page">
         <div class="tabs">
-          <div class="tab"  
+          <div class="tab"
             v-for="(rankType,index) in rankTypes" :key="index"
-            @click="e => switchTab(e,rankType.key)">
+            @click="e => switchTab(e,rankType.key)"
+            :class="rankType.key === currentTab ? 'current' : ''">
             {{rankType.title}}
           </div>
         </div>
@@ -31,8 +33,11 @@
 
 <script>
 import headPhoto from '@/components/head-photo';
+import { getRankBoardPersonalInfo, getRankBoardOverview } from '@/api/rank';
+
 import getWechatInfo from '@/utils/mixins';
 import ranklist from './ranklist';
+import bgUrl from '../../../static/images/bg-big.jpg';
 
 export default {
   components: {
@@ -40,12 +45,15 @@ export default {
   },
   data() {
     return {
+      indexBg: `url(${bgUrl})`,
       userInfo: {},
       currentTab: 'total',
       myRank: {
-        total: 1,
-        pk: 3,
-        final: 3,
+        exam_rank: '',
+        guan_num: '',
+        pk_rank: '',
+        star_num: '',
+        total_rank: '',
       },
       rankTypes: [
         {
@@ -58,95 +66,15 @@ export default {
         },
         {
           title: '考核榜',
-          key: 'final',
+          key: 'exam',
         },
       ],
       rankData: {
         total: [
-          {
-            img: '',
-            name: '小王',
-            star: 40,
-          },
-          {
-            img: '',
-            name: '小王',
-            star: 30,
-          },
-          {
-            img: '',
-            name: '小王',
-            star: 20,
-          },
-          {
-            img: '',
-            name: '小王',
-            star: 10,
-          },
-          {
-            img: '',
-            name: 'yuki',
-            star: 40,
-          },
         ],
         pk: [
-          {
-            img: '',
-            name: '小王',
-            result: '5胜1负',
-            star: 40,
-          },
-          {
-            img: '',
-            name: '小王',
-            result: '5胜1负',
-            star: 30,
-          },
-          {
-            img: '',
-            name: '小王',
-            result: '5胜1负',
-            star: 20,
-          },
-          {
-            img: '',
-            name: '小王',
-            result: '5胜1负',
-            star: 10,
-          },
-          {
-            img: '',
-            name: 'yuki',
-            result: '5胜1负',
-            star: 40,
-          },
         ],
-        final: [
-          {
-            img: '',
-            name: '小王',
-            avgScore: '99分/5次',
-          },
-          {
-            img: '',
-            name: '小王',
-            avgScore: '99分/5次',
-          },
-          {
-            img: '',
-            name: '小王',
-            avgScore: '99分/5次',
-          },
-          {
-            img: '',
-            name: '小王',
-            avgScore: '99分/5次',
-          },
-          {
-            img: '',
-            name: '小王',
-            avgScore: '99分/5次',
-          },
+        exam: [
         ],
       },
     };
@@ -163,6 +91,23 @@ export default {
       console.log(tabKey, 'adsfa');
     },
   },
+  mounted() {
+    getRankBoardPersonalInfo({}).then(
+      (res) => {
+        if (res.retCode === 0) {
+          this.myRank = res.data;
+        }
+      },
+    );
+    console.log('rankrankrank;');
+    getRankBoardOverview({}).then(
+      (res) => {
+        if (res.retCode === 0) {
+          this.rankData = res.data;
+        }
+      },
+    );
+  },
   created() {
     this.getUserInfo();
   },
@@ -174,6 +119,16 @@ export default {
   height: 100%;
   display: flex;
   flex-direction: column;
+  .bg {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100vh;
+  }
   .rank-overview {
     position: relative;
     margin-top: 100rpx;
@@ -206,6 +161,9 @@ export default {
         // border-top: 160rpx solid #FFFFFF;
         // border-left: 80rpx solid transparent;
         // border-right: 80rpx solid transparent;
+        &.current {
+          background-color: #FFFFFF;
+        }
       }
     }
   }

@@ -2,14 +2,16 @@
   <div class="rank-container">
     <div class="rank-list" v-for="(item,index) in ranklist" :key="index">
       <div class="rank-user">
-        <div>{{ index + 1 }}</div>
+        <div>{{ item.rank }}</div>
         <div>
-          <div class="avatar"></div>
-          <div>{{item.name}}</div>
+          <div class="avatar">
+            <img :src="item.customer.avatar_url"/>
+          </div>
+          <div>{{item.customer && item.customer.username}}</div>
         </div>
       </div>
       <div v-if="type === 'pk'">{{item.result}}</div>
-      <div v-if="type === 'final'">{{item.avgScore}}</div>
+      <div v-if="type === 'exam'">{{item.avgScore}}</div>
       <div v-else>{{item.star}}</div>
     </div>
   </div>
@@ -40,6 +42,13 @@ export default {
     .rank-user {
       display: flex;
       justify-content: space-around;
+      .avatar {
+        img {
+          width: 40rpx;
+          height: 40rpx;
+        }
+
+      }
     }
   }
 }

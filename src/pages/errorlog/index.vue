@@ -1,5 +1,6 @@
 <template>
   <div class="error-log-container">
+    <div class="bg" :style="{'background-image': indexBg}"></div>
     <div class="all-error scroll-view">
       <div class="error-item" v-for="(error,index) in errorLogs" :key="index">
         <div class="title">
@@ -16,10 +17,12 @@
 
 <script>
 import { getErrorLibList, cancelCollect } from '@/api/errorlog';
+import bgUrl from '../../../static/images/bg-big.jpg';
 
 export default {
   data() {
     return {
+      indexBg: `url(${bgUrl})`,
       pagination: {
         pageIndex: 1,
       },
@@ -90,11 +93,23 @@ export default {
 .error-log-container {
   min-height: 100vh;
   background-color: #F2F2F2;
+  .bg {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100vh;
+  }
   .all-error {
     height: 100%;
     .error-item {
       padding-top: 50rpx;
       padding-bottom: 40rpx;
+      padding-left: 50rpx;
+      padding-right: 50rpx;
       border-bottom: 1rpx solid #797979;
       position: relative;
       .title {
