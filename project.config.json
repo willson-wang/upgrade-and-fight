@@ -48,6 +48,12 @@
 					"name": "index",
 					"pathName": "pages/index/main",
 					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "闯关答题",
+					"pathName": "pages/hourglass-subject/main",
+					"query": ""
 				}
 			]
 		}

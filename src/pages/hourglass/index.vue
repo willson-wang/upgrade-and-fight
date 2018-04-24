@@ -14,7 +14,7 @@
 <script>
 // 闯关答题页面
 import garden from '@/components/garden';
-import { wxNavigateTo, wxGetStorage } from '@/utils/wechat';
+import { wxNavigateTo, wxGetStorage, wxSetStorage } from '@/utils/wechat';
 import { getHourglass } from '@/api/hourglass';
 import imgUrl from '../../../static/images/bg-big.jpg';
 import imgUrl2 from '../../../static/images/bg.png';
@@ -84,7 +84,10 @@ export default {
       const chuangguanIds = JSON.stringify(this.gardenList[this.gardenList.length - order].list);
       if (isGoNext) {
         console.log(wxNavigateTo, chuangguanIds);
-        wxNavigateTo(`../hourglass-subject/main?order=${order}&chuangguan_ids=${chuangguanIds}`);
+        wxSetStorage({ key: 'chuangguanIds', data: chuangguanIds });
+        wxNavigateTo(`../hourglass-subject/main?order=${order}`).catch((e) => {
+          console.log('error', e);
+        });
       }
     },
   },
