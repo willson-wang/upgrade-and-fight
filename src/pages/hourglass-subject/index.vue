@@ -9,7 +9,7 @@
 import subject from '@/components/subject';
 import { getHourglassSubject, getHourglassSubjectAnswer } from '@/api/hourglass';
 import wx, { dialog, wxGetStorage } from '../../utils/wechat';
-import imgUrl from '../../../static/images/bg-big.jpg';
+// import imgUrl from '../../../static/images/bg-big.jpg';
 
 export default {
   name: 'hourglassSubject',
@@ -30,7 +30,7 @@ export default {
   },
   computed: {
     backgroundImage() {
-      return `url(${imgUrl})`;
+      return 'url(https://miao.su/images/2018/04/24/hourglass-bg1198f.jpg)';
     },
   },
   methods: {
