@@ -32,7 +32,7 @@ import card from '@/components/card';
 import headPhoto from '@/components/head-photo';
 import getWechatInfo from '@/utils/mixins';
 import { getRankBroadInfo } from '@/api/common';
-import bgUrl from '../../../static/images/bg-big.jpg';
+// import bgUrl from '../../../static/images/bg-big.jpg';
 import errUrl from '../../../static/images/err.png';
 import exmaUrl from '../../../static/images/exams.png';
 import rankUrl from '../../../static/images/ranks.png';
@@ -63,7 +63,7 @@ export default {
         },
       ],
       rankImgUrl: rankUrl,
-      indexBg: `url(${bgUrl})`,
+      indexBg: 'url(https://miao.su/images/2018/04/24/bg-big3de1e.jpg)',
       personHourglassInfo: {},
     };
   },

@@ -16,7 +16,7 @@
 import garden from '@/components/garden';
 import { wxNavigateTo, wxGetStorage, wxSetStorage, wxShowToast } from '@/utils/wechat';
 import { getHourglass } from '@/api/hourglass';
-import imgUrl from '../../../static/images/hourglass-bg.png';
+// import imgUrl from '../../../static/images/hourglass-bg.png';
 import imgUrl2 from '../../../static/images/bg.png';
 
 const POSITION = {
@@ -71,7 +71,7 @@ export default {
       return totle;
     },
     backgroundImage() {
-      return `url(${imgUrl})`;
+      return 'url(https://miao.su/images/2018/04/24/hourglass-bg18330.png)';
     },
     backgroundImage2() {
       return `url(${imgUrl2})`;
