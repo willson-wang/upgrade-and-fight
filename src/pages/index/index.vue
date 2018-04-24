@@ -27,10 +27,11 @@
 
 <script>
 // 首页
-import { wxNavigateTo, wxShowToast } from '@/utils/wechat';
+import { wxNavigateTo, wxShowToast, wxGetStorage } from '@/utils/wechat';
 import card from '@/components/card';
 import headPhoto from '@/components/head-photo';
 import getWechatInfo from '@/utils/mixins';
+import { getRankBroadInfo } from '@/api/common';
 import bgUrl from '../../../static/images/bg-big.jpg';
 import errUrl from '../../../static/images/err.png';
 import exmaUrl from '../../../static/images/exams.png';
@@ -131,6 +132,15 @@ export default {
   },
   created() {
     this.getUserInfo();
+  },
+  onShow() {
+    wxGetStorage('userId').then((res) => {
+      console.log('onshow userId', res);
+      getRankBroadInfo({ cst_id: res.data }).then((r) => {
+        this.personHourglassInfo = r.data.data;
+        console.log('r', this.personHourglassInfo);
+      });
+    });
   },
 };
 </script>
