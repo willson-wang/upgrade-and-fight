@@ -77,6 +77,10 @@ export default {
       left: 50%;
       bottom: 0;
       transform: translate(-50%, 0);
+
+      i {
+        color: #ffff99;
+      }
     }
   }
 </style>

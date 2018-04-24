@@ -179,7 +179,7 @@ export default {
 
   i {
     font-size: 30px;
-    color: #1a2667;
+    color: #ffff99;
   }
 
 }

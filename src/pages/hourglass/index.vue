@@ -16,39 +16,39 @@
 import garden from '@/components/garden';
 import { wxNavigateTo, wxGetStorage, wxSetStorage, wxShowToast } from '@/utils/wechat';
 import { getHourglass } from '@/api/hourglass';
-import imgUrl from '../../../static/images/bg-big.jpg';
+import imgUrl from '../../../static/images/hourglass-bg.png';
 import imgUrl2 from '../../../static/images/bg.png';
 
 const POSITION = {
   1: {
-    left: '17%',
+    left: '30%',
   },
   2: {
-    left: '7%',
+    left: '36%',
   },
   3: {
-    left: '6%',
+    left: '24%',
   },
   4: {
-    left: '9%',
+    left: '32%',
   },
   5: {
-    left: '14%',
+    left: '32%',
   },
   6: {
-    left: '20%',
+    left: '26%',
   },
   7: {
-    left: '28%',
+    left: '44%',
   },
   8: {
-    left: '34%',
+    left: '40%',
   },
   9: {
-    left: '38%',
+    left: '40%',
   },
   10: {
-    left: '37%',
+    left: '40%',
   },
 };
 export default {
@@ -164,7 +164,7 @@ export default {
       }
       i {
         font-size: 30px;
-        color: #1a2667;
+        color: #ffff99;
       }
     }
   }
