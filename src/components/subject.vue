@@ -131,19 +131,22 @@ export default {
     >div {
       flex: 0 0 84%;
       height: 6px;
-      background-color: @color-shallow-gray;
+      background-color: #999;
+      border-radius: 3px;
       span {
         display: block;
         width: 0%;
         height: 6px;
-        background-color: @color-progress;
+        background-color: @color-white;
         transition: width 1s ease;
+        border-radius: 3px;
       }
     }
     >span {
       flex: 0 0 16%;
       font-size: 14px;
       text-align: center;
+      color: @color-white;
     }
   }
 
@@ -185,6 +188,7 @@ export default {
     .hourglass-subject-content-title {
       flex: 0 0 100px;
       line-height: 30px;
+      color: @color-white;
     }
     .hourglass-subject-content-item {
       flex: 1 0 auto;
@@ -202,6 +206,7 @@ export default {
           padding: 10px 5px;
           border-radius: 6px;
           box-shadow: 1px 1px 1px 1px #000;
+          background-color: @color-white;
         }
         span {
           flex: 0 0 14%;
