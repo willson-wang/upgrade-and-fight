@@ -1,5 +1,5 @@
 import { wxSetStorage, wxLogin, wxGetUserInfo, wxGetStorage } from '@/utils/wechat';
-import { saveUserInfo, getSessionKey } from '@/api/common';
+import { saveUserInfo, getSessionKey, getRankBroadInfo } from '@/api/common';
 
 export default {
   methods: {
@@ -25,6 +25,10 @@ export default {
           saveUserInfo({ userInfo: JSON.parse(res.data) }).then((response) => {
             console.log('执行saveUserInfo', response);
             wxSetStorage({ key: 'userId', data: response.data.id });
+            getRankBroadInfo({ cst_id: response.data.id }).then((r) => {
+              this.personHourglassInfo = r.data.data;
+              console.log('r', this.personHourglassInfo);
+            });
           }).catch((err) => {
             console.log(err);
           });

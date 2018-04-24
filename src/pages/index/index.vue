@@ -1,17 +1,13 @@
 <template>
-  <div class="container">
+  <div class="container index-bg" :style="{'background-image': indexBg}">
     <div class="userinfo" @click="bindViewTap">
       <head-photo :user-info="userInfo"></head-photo>
       <div><i class="icon icon-star1"></i></div>
-      <div>66</div>
+      <div>{{personHourglassInfo.star_num}}</div>
     </div>
     <div class="progress-wrap">
-      <div class="progress-circle">
-        <div class="pie_left"><div class="left" :style="{transform: leftRotate}"></div></div>
-        <div class="pie_right"><div class="right" :style="{transform: rightRotate}"></div></div>
-        <div class="mask">
-          <p>第{{checkPoint * 1}}关</p>
-        </div>
+      <div class="ec-canvas">
+        <ec-canvas class="canvas" id="mychart-dom-bar" canvas-id="mychart-bar" :ec="ec"></ec-canvas>
       </div>
       <p class="progress-totle">共10关</p>
       <div class="progress-button" @click="startHourglass">开始闯关</div>
@@ -35,6 +31,12 @@ import { wxNavigateTo, wxShowToast } from '@/utils/wechat';
 import card from '@/components/card';
 import headPhoto from '@/components/head-photo';
 import getWechatInfo from '@/utils/mixins';
+import bgUrl from '../../../static/images/bg-big.jpg';
+import errUrl from '../../../static/images/err.png';
+import exmaUrl from '../../../static/images/exams.png';
+import rankUrl from '../../../static/images/ranks.png';
+import pkUrl from '../../../static/images/PK.png';
+import { getOptions } from './options';
 
 export default {
   data() {
@@ -46,26 +48,37 @@ export default {
         {
           title: '错题库',
           key: 'error',
-          url: 'http://bpic.588ku.com/element_origin_min_pic/17/07/17/08422e8854043dcffccf8fc0193d63da.jpg',
+          url: errUrl,
         },
         {
           title: 'PK场',
           key: 'pk',
-          url: 'http://bpic.588ku.com/element_origin_min_pic/17/09/20/b7cb900c6b825ed77026c885eb173de7.jpg',
+          url: pkUrl,
         },
         {
           title: '终极考核室',
           key: 'final',
-          url: 'http://bpic.588ku.com/element_origin_min_pic/17/01/12/3573ee12f445250eda12d4ec286962f3.jpg',
+          url: exmaUrl,
         },
       ],
-      rankImgUrl: 'http://bpic.588ku.com/element_origin_min_pic/16/11/12/6925f876ea91c5463bc40113ee298fdb.jpg',
+      rankImgUrl: rankUrl,
+      indexBg: `url(${bgUrl})`,
+      personHourglassInfo: {},
     };
   },
   mixins: [getWechatInfo],
   components: {
     card,
     headPhoto,
+  },
+  watch: {
+    personHourglassInfo: {
+      deep: true,
+      handler(val) {
+        console.log('watch', val, this);
+        // this.chart.setOption(this.cb.options);
+      },
+    },
   },
   computed: {
     leftRotate() {
@@ -76,6 +89,10 @@ export default {
     },
     deg() {
       return (this.checkPoint / 10) * 360;
+    },
+    ec() {
+      const opt = getOptions(this.personHourglassInfo.total_rank);
+      return { options: opt };
     },
   },
   methods: {
@@ -119,12 +136,27 @@ export default {
 <style scoped lang="less">
 @import '../../assets/less/index.less';
 @import '../../assets/iconfont/iconfont.wxss';
+.index-bg {
+  background-size: cover;
+}
+
+.ec-canvas {
+  width: 100%;
+  height: 160px;
+
+  ec-canvas {
+    width: 160px;
+    height: 160px;
+  }
+}
+
 .userinfo {
   display: flex;
   width: 100%;
   flex: 1 0 auto;
   flex-direction: column;
   align-items: flex-start;
+  color: @color-white;
 
   div {
     font-size: 16px;
@@ -135,74 +167,29 @@ export default {
 
   i {
     font-size: 30px;
-    color: #e2df12;
+    color: #1a2667;
   }
 
 }
 
 .progress-wrap {
-  flex: 1 0 240px;
+  flex: 1 0 180px;
   position: relative;
   width: 100%;
-    .progress-circle {
-    width: 200px; 
-    height: 200px; 
-    position: absolute; 
-    border-radius: 50%; 
-    background: @color-progress;
-    top: 0;
-    left: 50%;
-    transform: translate(-50%, 0);
-
-    .pie_left, .pie_right {
-      width: 200px; 
-      height: 200px; 
-      position: absolute; 
-      top: 0;
-      left: 0;
-    }
-    .left, .right {
-      display: block; 
-      width:200px; 
-      height:200px; 
-      background:@color-shallow-gray; 
-      border-radius: 50%; 
-      position: absolute; 
-      top: 0; 
-      left: 0; 
-      transform: rotate(0deg); 
-      transition: transform 1s ease;
-    }
-    .pie_right, .right { 
-      clip:rect(0,auto,auto,100px); 
-    }
-    .pie_left, .left { 
-      clip:rect(0,100px,auto,0); 
-    }
-    .mask { 
-      width: 160px; 
-      height: 160px; 
-      border-radius: 50%; 
-      left: 20px; 
-      top: 20px; 
-      background: @color-white;
-      position: absolute; 
-      text-align: center; 
-      line-height: 160px; 
-      font-size: 16px;
-    }
-  }
+  color: @color-white;
+  margin-bottom: 20px;
 
   .progress-totle {
     position: absolute;
-    bottom: 36%;
-    left: 42%;
-    color: @color-font-disabled;
+    bottom: 28%;
+    left: 44%;
+    color: @color-white;
+    font-size: 14px;
   }
 
   .progress-button {
     position: absolute;
-    bottom: 0;
+    bottom: 20px;
     left: 50%;
     transform: translate(-50%, 0);
     font-size: 20px;
@@ -216,6 +203,7 @@ export default {
   width: 100%;
   display: flex;
   padding-top: 15px;
+  color: @color-white;
   li {
     flex: 1 0 33.3%;
     flex-direction: column;
@@ -223,8 +211,8 @@ export default {
     text-align: center;
     font-size: 16px;
     img {
-      width: 80px;
-      height: 80px;
+      width: 60px;
+      height: 60px;
     }
   } 
 }
@@ -237,9 +225,10 @@ export default {
   font-size: 14px;
   padding-bottom: 30px;
   margin-top: 10px;
+  color: @color-white;
   img {
     width: 50px;
-    height: 50px;
+    height: 30px;
   }
   i {
     font-size: 40px;

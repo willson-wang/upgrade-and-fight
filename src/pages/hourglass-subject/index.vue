@@ -28,11 +28,11 @@ export default {
     };
   },
   methods: {
-    selectHandler({ item, index, order }) {
+    selectHandler({ id, index, order }) {
       this.currentItem = index;
       this.select = true;
-      console.log(item);
-      getHourglassSubjectAnswer({ chuangguan_id: this.chuangguanId, answer_id: item.answer_id }).then((response) => {
+      console.log(id);
+      getHourglassSubjectAnswer({ chuangguan_id: this.chuangguanId, answer_id: id }).then((response) => {
         console.log(response);
         const data = response.data.data;
         this.isCorrect = data.is_right;
