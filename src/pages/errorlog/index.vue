@@ -1,14 +1,16 @@
 <template>
   <div class="error-log-container">
-      <div class="all-error">
-        <div class="error-item" v-for="(error,index) in errorLogs" :key="index">
-          <div class="title">
-            <div class="question">{{error.question}}</div>
-            <div class="bookmark" @click="e => cancelBookmark(e,error.id)">取消收藏</div>
-          </div>
-          <div class="log-at">收藏于: {{error.created_on}}</div>
+    <div class="all-error scroll-view">
+      <div class="error-item" v-for="(error,index) in errorLogs" :key="index">
+        <div class="title">
+          <div class="question">{{error.question}}</div>
+          <div class="bookmark" @click="e => cancelBookmark(e,error.id)">取消收藏</div>
         </div>
+        <div class="log-at">收藏于: {{error.created_on}}</div>
       </div>
+      <div class="loading" v-if="scrollView.loading">正在加载...</div>
+      <div class="loading-over" v-if="scrollView.loadingOver">已加载全部</div>
+    </div>
   </div>
 </template>
 
@@ -18,121 +20,58 @@ import { getErrorLibList, cancelCollect } from '@/api/errorlog';
 export default {
   data() {
     return {
+      pagination: {
+        pageIndex: 1,
+      },
+      scrollView: {
+        loading: false,
+        loadingOver: false,
+        scrollY: true,
+      },
       errorLogs: [
-        {
-          id: '68',
-          type: 1,
-          question: 'ERP中签约的置业顾问是A，上了云客后数据同步到云客，而置业顾问A这时候离职了，把这个客户分给置业顾问B，那签约的业绩属于A还是属于B的？ ',
-          created_on: '2018-04-14 19:02:43',
-          modified_on: '2018-04-14 19:02:43',
-          answer: {
-            quest_id: 68,
-            question: 'ERP中签约的置业顾问是A，上了云客后数据同步到云客，而置业顾问A这时候离职了，把这个客户分给置业顾问B，那签约的业绩属于A还是属于B的？ ',
-            answer: [
-              {
-                label: 'A',
-                answer: '属于置业顾问A',
-                answer_id: 189,
-                is_right: 1,
-              },
-              {
-                label: 'B',
-                answer: '属于置业顾问B',
-                answer_id: 190,
-                is_right: 0,
-              },
-            ],
-          },
-          bookmark: true,
-        },
-        {
-          id: '68',
-          type: 1,
-          question: 'ERP中签约的置业顾问是A，上了云客后数据同步到云客，而置业顾问A这时候离职了，把这个客户分给置业顾问B，那签约的业绩属于A还是属于B的？ ',
-          created_on: '2018-04-14 19:02:43',
-          modified_on: '2018-04-14 19:02:43',
-          answer: {
-            quest_id: 68,
-            question: 'ERP中签约的置业顾问是A，上了云客后数据同步到云客，而置业顾问A这时候离职了，把这个客户分给置业顾问B，那签约的业绩属于A还是属于B的？ ',
-            answer: [
-              {
-                label: 'A',
-                answer: '属于置业顾问A',
-                answer_id: 189,
-                is_right: 1,
-              },
-              {
-                label: 'B',
-                answer: '属于置业顾问B',
-                answer_id: 190,
-                is_right: 0,
-              },
-            ],
-          },
-          bookmark: true,
-        },
-        {
-          id: '68',
-          type: 1,
-          question: 'ERP中签约的置业顾问是A，上了云客后数据同步到云客，而置业顾问A这时候离职了，把这个客户分给置业顾问B，那签约的业绩属于A还是属于B的？ ',
-          created_on: '2018-04-14 19:02:43',
-          modified_on: '2018-04-14 19:02:43',
-          answer: {
-            quest_id: 68,
-            question: 'ERP中签约的置业顾问是A，上了云客后数据同步到云客，而置业顾问A这时候离职了，把这个客户分给置业顾问B，那签约的业绩属于A还是属于B的？ ',
-            answer: [
-              {
-                label: 'A',
-                answer: '属于置业顾问A',
-                answer_id: 189,
-                is_right: 1,
-              },
-              {
-                label: 'B',
-                answer: '属于置业顾问B',
-                answer_id: 190,
-                is_right: 0,
-              },
-            ],
-          },
-          bookmark: true,
-        },
-        {
-          id: '68',
-          type: 1,
-          question: 'ERP中签约的置业顾问是A，上了云客后数据同步到云客，而置业顾问A这时候离职了，把这个客户分给置业顾问B，那签约的业绩属于A还是属于B的？ ',
-          created_on: '2018-04-14 19:02:43',
-          modified_on: '2018-04-14 19:02:43',
-          answer: {
-            quest_id: 68,
-            question: 'ERP中签约的置业顾问是A，上了云客后数据同步到云客，而置业顾问A这时候离职了，把这个客户分给置业顾问B，那签约的业绩属于A还是属于B的？ ',
-            answer: [
-              {
-                label: 'A',
-                answer: '属于置业顾问A',
-                answer_id: 189,
-                is_right: 1,
-              },
-              {
-                label: 'B',
-                answer: '属于置业顾问B',
-                answer_id: 190,
-                is_right: 0,
-              },
-            ],
-          },
-          bookmark: true,
-        },
       ],
     };
   },
+  onPullDownRefresh() {
+    this.init(true);
+  },
+  onReachBottom() {
+    this.scrollToLower();
+  },
   methods: {
+    init() {
+      getErrorLibList({ pageno: 1 }).then(
+        (res) => {
+          this.errorLogs = res.data;
+          console.log(res, '---');
+        },
+        (err) => {
+          console.log('xxx', err);
+        },
+      );
+    },
+    // scroll
+    scrollToLower() {
+      this.pagination.pageIndex += 1;
+      const { pageIndex = 1 } = this.pagination;
+      this.scrollView.loading = true;
+      this.scrollView.loadingOver || getErrorLibList({ pageno: pageIndex }).then(
+        (res) => {
+          this.scrollView.loading = false;
+          if (res.data.data === false) {
+            this.scrollView.loadingOver = true;
+          } else {
+            // res;
+          }
+        },
+      );
+    },
     cancelBookmark(e, questId) {
       cancelCollect({ quest_id: questId });
     },
   },
-  created() {
-    getErrorLibList({ pageno: 1 });
+  mounted() {
+    this.init();
   },
 };
 </script>

@@ -14,10 +14,14 @@ export function getErrorLibList(params = {}) {
     .then(
       (res) => {
         const p = Object.assign(params, { cst_id: res.data });
-        http.getRequest({
+        return http.getRequest({
           url: '/api/index.php?r=error-lib/list',
           params: p,
-        });
+        }).then(
+          (result) => {
+            return result.data;
+          },
+        );
       },
     );
 }

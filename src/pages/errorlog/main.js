@@ -7,5 +7,6 @@ app.$mount();
 export default {
   config: {
     navigationBarTitleText: '错题库',
+    enablePullDownRefresh: true,
   },
 };
