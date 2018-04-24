@@ -29,7 +29,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 1,
+			"current": 2,
 			"list": [
 				{
 					"id": 0,
@@ -48,6 +48,11 @@
 					"name": "index",
 					"pathName": "pages/index/main",
 					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "pages/errorlog",
+					"pathName": "pages/errorlog/main"
 				}
 			]
 		}

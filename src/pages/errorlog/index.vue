@@ -39,9 +39,12 @@ export default {
     this.scrollToLower();
   },
   methods: {
-    init() {
+    init(isRefresh = false) {
       getErrorLibList({ pageno: 1 }).then(
         (res) => {
+          if (isRefresh) {
+            this.errorLogs = res.data;
+          }
           this.errorLogs = res.data;
           console.log(res, '---');
         },
@@ -58,11 +61,17 @@ export default {
       this.scrollView.loadingOver || getErrorLibList({ pageno: pageIndex }).then(
         (res) => {
           this.scrollView.loading = false;
-          if (res.data.data === false) {
+          if (res.retCode === 0) {
+            this.errorLogs = this.errorLogs.concat(res.data);
+          }
+          if (res.data === false || res.data.length === 0) {
             this.scrollView.loadingOver = true;
           } else {
             // res;
           }
+        },
+        (err) => {
+          console.log('errrrrr', err);
         },
       );
     },
@@ -82,6 +91,7 @@ export default {
   min-height: 100vh;
   background-color: #F2F2F2;
   .all-error {
+    height: 100%;
     .error-item {
       padding-top: 50rpx;
       padding-bottom: 40rpx;
