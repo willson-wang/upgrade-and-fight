@@ -72,15 +72,6 @@ export default {
     card,
     headPhoto,
   },
-  watch: {
-    personHourglassInfo: {
-      deep: true,
-      handler(val) {
-        console.log('watch', val, this);
-        // this.chart.setOption(this.cb.options);
-      },
-    },
-  },
   computed: {
     leftRotate() {
       return this.deg > 180 ? `rotate(${this.deg - 180}deg)` : 0;
@@ -92,7 +83,8 @@ export default {
       return (this.checkPoint / 10) * 360;
     },
     ec() {
-      const opt = getOptions(this.personHourglassInfo.total_rank);
+      const opt = getOptions(this.personHourglassInfo.guan_num);
+      console.log('ec', this.personHourglassInfo.guan_num);
       return { options: opt };
     },
   },
@@ -138,7 +130,7 @@ export default {
       console.log('onshow userId', res);
       getRankBroadInfo({ cst_id: res.data }).then((r) => {
         this.personHourglassInfo = r.data.data;
-        console.log('r', this.personHourglassInfo);
+        console.log('r show', this.personHourglassInfo);
       });
     });
   },

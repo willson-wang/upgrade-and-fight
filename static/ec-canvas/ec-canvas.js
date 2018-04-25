@@ -11,16 +11,24 @@ Component({
     },
 
     ec: {
-      type: Object
+      type: Object,
+      // observer监听属性变化
+      observer: function (val) {
+        console.log('observer', val);
+        this.init();
+      },
     }
   },
 
-  data: {
+  data: {},
 
+  watch:{
+    ec: function(val, oldVal) {
+      console.log('new: %s, old: %s', val, oldVal);
+    },
   },
 
   ready: function () {
-    setTimeout(() => {
       if (!this.data.ec) {
         console.warn('组件需绑定 ec 变量，例：<ec-canvas id="mychart-dom-bar" '
           + 'canvas-id="mychart-bar" ec="{{ ec }}"></ec-canvas>');
@@ -30,7 +38,6 @@ Component({
       if (!this.data.ec.lazyLoad) {
         this.init();
       }
-    }, 300);
   },
 
   methods: {

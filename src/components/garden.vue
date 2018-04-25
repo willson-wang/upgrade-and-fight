@@ -7,7 +7,7 @@
       </div>
     </div>
     <ul class="garden-star clearfix">
-      <li class="f-l" v-if="starts" v-for="(item, index) in newStarts" :key="index">
+      <li  v-if="starts" v-for="(item, index) in newStarts" :key="index">
         <i class="icon" :class="item >= 1 ? 'icon-star1' : 'icon-star_half'"></i>
       </li>
     </ul>
@@ -52,6 +52,7 @@ export default {
     width: 160px;
     height: 60px;
     margin-top: 30px;
+    
     .garden-content {
       position: absolute;
       left: 50%;
@@ -77,7 +78,11 @@ export default {
       left: 50%;
       bottom: 0;
       transform: translate(-50%, 0);
-
+      width: 100%;
+      text-align: center;
+      >li {
+        display: inline-block;
+      }
       i {
         color: #ffff99;
       }
