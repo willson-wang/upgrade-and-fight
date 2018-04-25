@@ -5,7 +5,7 @@
       <div class="error-item" v-for="(error,index) in errorLogs" :key="index">
         <div class="title">
           <div class="question">{{error.question}}</div>
-          <div class="bookmark" @click="e => cancelBookmark(e,error.id)">取消收藏</div>
+          <div class="bookmark" @click="e => cancelBookmark(e,index,error.id)">取消收藏</div>
         </div>
         <div class="log-at">收藏于: {{error.created_on}}</div>
       </div>
@@ -78,8 +78,9 @@ export default {
         },
       );
     },
-    cancelBookmark(e, questId) {
+    cancelBookmark(e, index, questId) {
       cancelCollect({ quest_id: questId });
+      this.errorLogs.splice(index, 1);
     },
   },
   mounted() {
