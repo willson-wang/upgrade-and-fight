@@ -18,11 +18,11 @@
 
 <script>
 import { getErrorLibList, cancelCollect } from '@/api/errorlog';
-import bgUrl from '../../../static/images/bg-whale.jpg';
+// import bgUrl from '../../../static/images/bg-whale.jpg';
 
 function data() {
   return {
-    indexBg: `url(${bgUrl})`,
+    indexBg: 'url(http://ww1.sinaimg.cn/large/b0f3038egy1fqp8o1vn6ij20ek0qo3zs.jpg)',
     pagination: {
       pageIndex: 1,
     },
@@ -108,6 +108,10 @@ export default {
 
     width: 100%;
     height: 100vh;
+
+    background-size:cover;
+    background-position:center;
+    
   }
   .all-error {
     height: 100%;

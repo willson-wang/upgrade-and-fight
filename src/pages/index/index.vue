@@ -1,6 +1,6 @@
 <template>
-  <div class="container index-bg" :style="{'background': indexBg}">
-    <div class="userinfo" @click="bindViewTap">
+  <div class="container index-bg" :style="{'background-image': indexBg}">
+    <div class="userinfo" >
       <head-photo :user-info="userInfo"></head-photo>
       <div><i class="icon icon-star1"></i></div>
       <div>{{personHourglassInfo.star_num}}</div>
@@ -145,7 +145,8 @@ export default {
 @import '../../assets/less/index.less';
 @import '../../assets/iconfont/iconfont.wxss';
 .index-bg {
-  background-size: cover;
+  background-size:cover;
+  background-position:center;
 }
 
 .ec-canvas {
