@@ -7,37 +7,42 @@ Component({
   properties: {
     canvasId: {
       type: String,
-      value: 'ec-canvas'
+      value: 'ec-canvas',
     },
 
     ec: {
       type: Object,
       // observer监听属性变化
       observer: function (val) {
-        console.log('observer', val);
-        this.init();
+        console.log('observer', val, this);
+        clearTimeout(this.timer);
+        this.timer = setTimeout(() => {
+          this.init();
+        }, 300);
       },
-    }
+    },
   },
 
-  data: {},
+  data: {
+    timer: null,
+  },
 
-  watch:{
-    ec: function(val, oldVal) {
+  watch: {
+    ec: function (val, oldVal) {
       console.log('new: %s, old: %s', val, oldVal);
     },
   },
 
   ready: function () {
-      if (!this.data.ec) {
-        console.warn('组件需绑定 ec 变量，例：<ec-canvas id="mychart-dom-bar" '
+    if (!this.data.ec) {
+      console.warn('组件需绑定 ec 变量，例：<ec-canvas id="mychart-dom-bar" '
           + 'canvas-id="mychart-bar" ec="{{ ec }}"></ec-canvas>');
-        return;
-      }
+      return;
+    }
 
-      if (!this.data.ec.lazyLoad) {
-        this.init();
-      }
+    if (!this.data.ec.lazyLoad) {
+      this.init();
+    }
   },
 
   methods: {
@@ -60,21 +65,19 @@ Component({
         return canvas;
       });
 
-      var query = wx.createSelectorQuery().in(this);
-      query.select('.ec-canvas').boundingClientRect(res => {
+      const query = wx.createSelectorQuery().in(this);
+      query.select('.ec-canvas').boundingClientRect((res) => {
         if (typeof callback === 'function') {
           this.chart = callback(canvas, res.width, res.height);
-        }
-        else if (this.data.ec && this.data.ec.onInit) {
+        } else if (this.data.ec && this.data.ec.onInit) {
           this.chart = this.data.ec.onInit(canvas, res.width, res.height);
-        }
-        else if (this.data.ec && this.data.ec.options) {
+        } else if (this.data.ec && this.data.ec.options) {
           // 添加接收的options参数
-          const ec = this.data.ec
+          const ec = this.data.ec;
           function initChart(canvas, width, height) {
             const chart = echarts.init(canvas, null, {
               width: width,
-              height: height
+              height: height,
             });
             canvas.setChart(chart);
             chart.setOption(ec.options);
@@ -90,7 +93,7 @@ Component({
       if (!opt.canvasId) {
         opt.canvasId = this.data.canvasId;
       }
-      
+
       ctx.draw(true, () => {
         wx.canvasToTempFilePath(opt, this);
       });
@@ -98,24 +101,24 @@ Component({
 
     touchStart(e) {
       if (!this.data.ec.disableTouch && this.chart && e.touches.length > 0) {
-        var touch = e.touches[0];
+        const touch = e.touches[0];
         this.chart._zr.handler.dispatch('mousedown', {
           zrX: touch.x,
-          zrY: touch.y
+          zrY: touch.y,
         });
         this.chart._zr.handler.dispatch('mousemove', {
           zrX: touch.x,
-          zrY: touch.y
+          zrY: touch.y,
         });
       }
     },
 
     touchMove(e) {
       if (!this.data.ec.disableTouch && this.chart && e.touches.length > 0) {
-        var touch = e.touches[0];
+        const touch = e.touches[0];
         this.chart._zr.handler.dispatch('mousemove', {
           zrX: touch.x,
-          zrY: touch.y
+          zrY: touch.y,
         });
       }
     },
@@ -125,13 +128,13 @@ Component({
         const touch = e.changedTouches ? e.changedTouches[0] : {};
         this.chart._zr.handler.dispatch('mouseup', {
           zrX: touch.x,
-          zrY: touch.y
+          zrY: touch.y,
         });
         this.chart._zr.handler.dispatch('click', {
           zrX: touch.x,
-          zrY: touch.y
+          zrY: touch.y,
         });
       }
-    }
-  }
+    },
+  },
 });

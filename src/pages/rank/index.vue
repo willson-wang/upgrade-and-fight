@@ -39,7 +39,8 @@ import { getRankBoardPersonalInfo, getRankBoardOverview } from '@/api/rank';
 
 import getWechatInfo from '@/utils/mixins';
 import ranklist from './ranklist';
-import bgUrl from '../../../static/images/bg-big.jpg';
+// import { wxGetStorage } from '../../utils/wechat';
+// import bgUrl from '../../../static/images/bg-big.jpg';
 
 export default {
   components: {
@@ -47,7 +48,7 @@ export default {
   },
   data() {
     return {
-      indexBg: `url(${bgUrl})`,
+      indexBg: 'url(http://ww1.sinaimg.cn/large/b0f3038egy1fqo7nsmo8gj20hs0vktaw.jpg)',
       userInfo: {},
       currentTab: 'total',
       myRank: {
@@ -110,7 +111,7 @@ export default {
       },
     );
   },
-  created() {
+  onLoad() {
     this.getUserInfo();
   },
 };
@@ -134,6 +135,8 @@ export default {
     height: 100vh;
 
     z-index: 0;
+    background-size:cover;
+    background-position:center;
   }
   .rank-overview {
     position: relative;
