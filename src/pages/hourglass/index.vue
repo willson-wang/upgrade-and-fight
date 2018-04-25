@@ -127,6 +127,9 @@ export default {
     })
     .catch((err) => {
       console.log(err);
+      wxShowToast({
+        title: '参数错误请返回首页',
+      });
     });
   },
   onLoad() {
