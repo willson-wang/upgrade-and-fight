@@ -97,6 +97,7 @@ export default {
       wxNavigateTo('../hourglass/main').catch((e) => {
         console.log('../hourglass/main', e);
       });
+      this.init = false;
     },
     linkTo(key) {
       const STATUS = {
@@ -123,9 +124,12 @@ export default {
     },
   },
   created() {
+    this.init = true;
     this.getUserInfo();
   },
   onShow() {
+    console.log(this.init);
+    if (this.init) return;
     wxGetStorage('userId').then((res) => {
       console.log('onshow userId', res);
       getRankBroadInfo({ cst_id: res.data }).then((r) => {

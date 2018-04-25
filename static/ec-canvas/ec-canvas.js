@@ -15,12 +15,17 @@ Component({
       // observer监听属性变化
       observer: function (val) {
         console.log('observer', val);
-        this.init();
+        clearTimeout(this.timer);
+        this.timer = setTimeout(() => {
+          this.init();
+        }, 300);
       },
     }
   },
 
-  data: {},
+  data: {
+    timer: null,
+  },
 
   watch:{
     ec: function(val, oldVal) {
