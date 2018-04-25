@@ -56,15 +56,15 @@
 					"query": ""
 				},
 				{
-<<<<<<< HEAD
 					"id": -1,
 					"name": "pages/rank",
 					"pathName": "pages/rank/main",
-=======
+					"query": ""
+				},
+				{
 					"id": -3,
 					"name": "闯关答题",
 					"pathName": "pages/hourglass-subject/main",
->>>>>>> 8713d4ae14f81cad8884ae9da41f04b3ae838552
 					"query": ""
 				}
 			]
