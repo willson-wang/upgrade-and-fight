@@ -12,28 +12,34 @@
       <div class="loading" v-if="scrollView.loading">正在加载...</div>
       <div class="loading-over" v-if="scrollView.loadingOver">已加载全部</div>
     </div>
+    <div v-if="errorLogs.length === 0">您还没有错题~</div>
   </div>
 </template>
 
 <script>
 import { getErrorLibList, cancelCollect } from '@/api/errorlog';
-import bgUrl from '../../../static/images/bg-big.jpg';
+import bgUrl from '../../../static/images/bg-whale.jpg';
+
+function data() {
+  return {
+    indexBg: `url(${bgUrl})`,
+    pagination: {
+      pageIndex: 1,
+    },
+    scrollView: {
+      loading: false,
+      loadingOver: false,
+      scrollY: true,
+    },
+    errorLogs: [
+    ],
+  };
+}
 
 export default {
-  data() {
-    return {
-      indexBg: `url(${bgUrl})`,
-      pagination: {
-        pageIndex: 1,
-      },
-      scrollView: {
-        loading: false,
-        loadingOver: false,
-        scrollY: true,
-      },
-      errorLogs: [
-      ],
-    };
+  data,
+  onShow() {
+    this.init();
   },
   onPullDownRefresh() {
     this.init(true);
@@ -84,7 +90,6 @@ export default {
     },
   },
   mounted() {
-    this.init();
   },
 };
 </script>
@@ -113,13 +118,13 @@ export default {
       padding-right: 50rpx;
       border-bottom: 1rpx solid #797979;
       position: relative;
+      color: #FFF;
       .title {
         display: flex;
         align-items: flex-start;
         justify-content: space-between;
         .question {
           font-size: 36rpx;
-          color: #333333;
           word-wrap: auto;
           flex-grow: 1;
           max-width:500rpx;
@@ -138,10 +143,9 @@ export default {
       .log-at {
         font-size: 18rpx;
         font-weight: 400;
-        color: #333333;
         position: absolute;
         bottom: 0;
-        right: 200rpx;
+        right: 50rpx;
       }
     }
   }

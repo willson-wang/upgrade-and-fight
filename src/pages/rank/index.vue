@@ -1,12 +1,14 @@
 <template>
   <div class="rank-container">
-    <!-- <div class="bg" :style="{'background-image': indexBg}"></div> -->
+    <div class="bg" :style="{'background-image': indexBg}"></div>
       <div class="rank-overview">
         <div class="rank-avatar">
           <div class="userinfo">
             <head-photo :user-info="userInfo"></head-photo>
-            <div><i class="icon icon-star1"></i></div>
-            <div>{{myRank.star_num}}</div>
+            <div class="star">
+              <i class="icon icon-star1"></i>
+              <div class="star-number">{{myRank.star_num}}</div>
+            </div>
           </div>
         </div>
         <div class="rank-rst">
@@ -115,6 +117,8 @@ export default {
 </script>
 
 <style lang="less">
+@import '../../assets/less/index.less';
+@import '../../assets/iconfont/iconfont.wxss';
 .rank-container {
   height: 100%;
   display: flex;
@@ -128,6 +132,8 @@ export default {
 
     width: 100%;
     height: 100vh;
+
+    z-index: 0;
   }
   .rank-overview {
     position: relative;
@@ -136,33 +142,46 @@ export default {
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
+      
+      .userinfo {
+        display: flex;
+        align-items: flex-end;
+        .star {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          color: #ffff99;
+          .star-number {
+            color: #FFF;
+          }
+        }
+      }
     }
     .rank-rst {
-      background-color: #FFFFFF;
       width: 640rpx;
       height: 300rpx;
-      border: 1px solid rgba(121,121,121,1);
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
       margin: auto;
+      font-size: 32rpx;
     }
   }
   .rank-page {
     flex-grow: 1;
     margin-top: 60rpx;
-    background-color: #8f949a;
+    // background-color:  rgb(40,168,168);
+    width: 90%;
+    z-index: 2;
     .tabs {
       display: flex;
       justify-content: space-between;
       .tab {
-        // width: 160rpx;
-        // height: 40rpx;
-        // border-top: 160rpx solid #FFFFFF;
-        // border-left: 80rpx solid transparent;
-        // border-right: 80rpx solid transparent;
+        font-size: 40rpx;
+        flex-grow: 1;
+        text-align: center;
         &.current {
-          background-color: #FFFFFF;
+          border-bottom: 1px solid #FFF;
         }
       }
     }
