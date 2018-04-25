@@ -4,7 +4,7 @@
     <div class="all-error scroll-view">
       <div class="error-item" v-for="(error,index) in errorLogs" :key="index">
         <div class="title">
-          <div class="question">{{error.question}}</div>
+          <div class="question" @click="e => gotoQuestion(e,index,error.id)">{{error.question}}</div>
           <div class="bookmark" @click="e => cancelBookmark(e,index,error.id)">取消收藏</div>
         </div>
         <div class="log-at">收藏于: {{error.created_on}}</div>
@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import { wxNavigateTo } from '@/utils/wechat';
 import { getErrorLibList, cancelCollect } from '@/api/errorlog';
 import bgUrl from '../../../static/images/bg-whale.jpg';
 
@@ -87,6 +88,9 @@ export default {
     cancelBookmark(e, index, questId) {
       cancelCollect({ quest_id: questId });
       this.errorLogs.splice(index, 1);
+    },
+    gotoQuestion(e, index, questId) {
+      wxNavigateTo(`/pages/errorlog/error_detail/main?quest=${questId}`);
     },
   },
   mounted() {

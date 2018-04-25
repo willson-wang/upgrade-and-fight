@@ -1,5 +1,5 @@
 <template>
-  <div class="rank-container">
+  <div class="rank-list-container">
     <div class="rank-list" v-for="(item,index) in ranklist" :key="index">
       <div class="rank-user">
         <div>{{ item.rank }}</div>
@@ -10,7 +10,10 @@
       </div>
       <div class="rank-result" v-if="type === 'pk'">{{item.result}}</div>
       <div v-if="type === 'exam'">{{item.avgScore}}</div>
-      <div v-else>{{item.star}}</div>
+      <div class="star" v-else>
+        <i class="icon icon-star1"></i>
+        <div class="star-number">{{item.star_num}}</div>
+      </div>
     </div>
   </div>
 </template>
@@ -32,17 +35,18 @@ export default {
 </script>
 
 <style lang="less">
-.rank-container {
+.rank-list-container {
   display: flex;
-  align-items: flex-start;
+  flex-direction: column;
+  // align-items: flex-between;
   .rank-list {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     height: 80rpx;
     .rank-user {
       display: flex;
       align-items: center;
-      justify-content: space-around;
+      justify-content: flex-start;
       .avatar {
         img {
           width: 40rpx;
@@ -56,6 +60,15 @@ export default {
       .user-name {
         font-size: 28rpx;
       }
+    }
+    .star {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #ffff99;
+      .star-number {
+            color: #FFF;
+          }
     }
   }
 }
