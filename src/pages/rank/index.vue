@@ -13,8 +13,8 @@
         </div>
         <div class="rank-rst">
           <div class="total-ov">总榜: NO {{myRank.total_rank}}</div>
-          <div class="pk-ov">PK榜: NO {{myRank.pk_rank}}</div>
-          <div class="final-ov">考核榜: NO {{myRank.exam_rank}}</div>
+          <div class="pk-ov">PK榜: {{'无' || myRank.pk_rank}}</div>
+          <div class="final-ov">考核榜: {{'无' || myRank.exam_rank}}</div>
         </div>
       </div>
       <div class="rank-page">
@@ -158,7 +158,7 @@ export default {
       }
     }
     .rank-rst {
-      width: 640rpx;
+      width: 560rpx;
       height: 300rpx;
       display: flex;
       justify-content: space-between;

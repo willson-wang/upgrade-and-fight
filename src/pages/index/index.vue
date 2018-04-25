@@ -113,7 +113,10 @@ export default {
           wxNavigateTo('../errorlog/main');
         },
         state_final: function () {
-          wxNavigateTo('../finalexam/main');
+          wxShowToast({
+            title: '开发中，敬请期待...',
+          });
+          // wxNavigateTo('../finalexam/main');
         },
         state_rank: function () {
           wxNavigateTo('../rank/main');

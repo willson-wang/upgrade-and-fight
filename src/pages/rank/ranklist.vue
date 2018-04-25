@@ -1,7 +1,8 @@
 <template>
   <div class="rank-list-container">
     <div class="rank-list" v-for="(item,index) in ranklist" :key="index">
-      <div class="rank-user">
+      <div v-if="type === 'pk' || type === 'exam'"></div>
+      <div v-if="type === 'total'" class="rank-user">
         <div>{{ item.rank }}</div>
         <div class="avatar">
             <img :src="item.customer.avatar_url"/>
@@ -9,7 +10,7 @@
         <div class="user-name">{{item.customer && item.customer.username}}</div>
       </div>
       <div class="rank-result" v-if="type === 'pk'">{{item.result}}</div>
-      <div v-if="type === 'exam'">{{item.avgScore}}</div>
+      <div v-if="type === 'pk' || type === 'exam'">{{item.avgScore}}</div>
       <div class="star" v-else>
         <i class="icon icon-star1"></i>
         <div class="star-number">{{item.star_num}}</div>
@@ -47,6 +48,7 @@ export default {
       display: flex;
       align-items: center;
       justify-content: flex-start;
+      margin-left: 60rpx;
       .avatar {
         img {
           width: 40rpx;
@@ -64,10 +66,12 @@ export default {
     .star {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: flex-start;
+      width: 100rpx;
       color: #ffff99;
       .star-number {
             color: #FFF;
+            margin-left: 20rpx;
           }
     }
   }
